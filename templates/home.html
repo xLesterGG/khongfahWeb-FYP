@@ -1,0 +1,75 @@
+<div data-ng-controller="chatCtrl" id="main">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#!/home/inbox">KuchingBearingsOS™</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" data-ui-sref="home.inbox">Inbox <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#!/home/history">Payments</a>
+                    </li>
+
+                    <!-- <li class="nav-item active">
+                        <a class="nav-link" href="#!/home/stats">Statistics</a>
+                    </li> -->
+                </ul>
+
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" data-ng-click="logout()" href>Logout</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- <nav class="navbar navbar-default navbar-static-top">
+        <div class="container nav">
+            <div class="navbar-header">
+                <button type="button?" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#MenuOnTop" aria-expended="false">
+                    <span class="sr-only"> Toggle Navigation </span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#!/home/inbox"> KuchingBearingsOS </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="MenuOnTop">
+                <ul class="nav navbar-nav">
+
+                    <li><a data-ui-sref="home.inbox"> Inbox </a></li>
+
+                    <li><a href="#!/home/history"> Payments </a></li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a data-ng-click="logout()" href>Log Out </a></li>
+                </ul>
+            </div>
+        </div>
+    </nav> -->
+    <!-- <div class="container-fluid" style="background-color:white;height:100vh"> -->
+
+    <div class="container-fluid" style="background-color:white;">
+        <div ui-view></div>
+    </div>
+</div>
+
+<script language="javascript">
+    function autoResizeDiv()
+    {
+        document.getElementById('main').style.height = window.innerHeight +'px';
+    }
+    window.onresize = autoResizeDiv;
+    autoResizeDiv();
+</script>

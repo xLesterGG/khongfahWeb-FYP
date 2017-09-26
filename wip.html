@@ -1,0 +1,304 @@
+<div class="col-md-4" style="display:3px solid yellow">
+        <div class="info" >
+            <md-toolbar md-scroll-shrink="">
+                <div class="md-toolbar-tools">
+                    <h3>
+                        <span>Bearings Requested</span>
+                    </h3>
+                </div>
+            </md-toolbar>
+
+
+            <div style="background-color:#F5F5F5" id="bearings">
+                <md-card md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch data-ng-repeat="b in currentInq1.bearings track by $index">
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline" ng-show="b.serialNo!=''">Serial: {{b.serialNo}}</span>
+
+                            <span class="md-headline" ng-show="b.serialNo==''">Serial: Not provided</span>
+                            <span class="md-subhead">
+                                <p>
+                                    Height : {{b.height}} mm <br>
+                                    Diameter (I) : {{b.diameterI}} mm <br>
+                                    Diameter (O) : {{b.diameterO}} mm <br>
+                                    # {{$index+1}}<br>
+                                </p>
+                            </span>
+                        </md-card-title-text>
+
+                        <md-card-title-media>
+                            <div class="md-media-sm card-media">
+                                <img class="image" ng-click="view()" ng-src="{{b.imageUrl}}" alt="bearing picture"/>
+                            </div>
+                        </md-card-title-media>
+                    </md-card-title>
+
+                    <md-card-content>
+                      <p>
+                        Extra comments: {{b.extraComment}}
+                      </p>
+                    </md-card-content>
+                </md-card>
+            </div>
+
+
+            <!-- Quotation -->
+
+            <div class="quotation" data-ng-repeat="inq in allInq|customFilter:chatID track by $index">
+
+                <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#myModal{{$index}}" > Send Quotation </button>
+
+                <div id="myModal{{$index}}" class="modal fade" role="dialog">
+
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Quotation</h4>
+                            </div>
+
+                            <div class="modal-body" >
+
+                                <table class="table" align="center">
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+
+                                        <th>
+                                            Serial Number
+                                        </th>
+
+                                        <th>
+                                            Quantity
+                                        </th>
+
+                                        <th>
+                                            Price/ unit
+                                        </th>
+
+                                        <th>
+                                            Total
+                                        </th>
+
+                                        <th>
+
+                                        </th>
+                                    </tr>
+
+                                    <tr ng-repeat="s in currentInq.bearings track by $index">
+                                        <td>
+                                            {{$index+1}}
+                                        </td>
+
+                                        <td>
+                                            <!-- {{s.serialNo}} -->
+                                            <!-- <input type="text" class="form-control no-border" data-ng-model="bearing[$index]" value="{{s.serialNo}}"/> -->
+
+                                            <input type="text" class="form-control no-border input-sm" data-ng-init="bearing[$index]='{{s.serialNo}}'" data-ng-model="bearing[$index]" value="{{s.serialNo}}" data-ng-change="updateBearings($index,bearing[$index])"/>
+
+                                            <!-- <input type="text" class="form-control no-border input-sm" id="bearing[]" value="{{s.serialNo}}"/> -->
+
+
+                                            <!-- {{s.serialNo}} -->
+                                        </td>
+
+                                        <td>
+                                            <input type="number" style="width:5vw" class="input-sm form-control no-border" data-ng-model="quantity[$index]" size="1" data-ng-init="quantity[$index]=0" />
+                                        </td>
+
+                                        <td>
+                                            <input type="number"  style="width:5vw" class="input-sm form-control no-border" data-ng-model="ppu[$index]" data-ng-init="ppu[$index] = 0" size="1" ng-change="getTotal();"/>
+                                        </td>
+
+                                        <td>
+                                            <span data-ng-model="total[$index]">
+                                                {{quantity[$index]*ppu[$index] | currency:'RM '}}
+                                            </span>
+                                        </td>
+
+                                        <td data-ng-model="gTotal">
+                                            <a style="text-decoration:none" class="glyphicon glyphicon-remove" data-ng-click="removeRow($index);" aria-hidden="true"></a>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                        <td>
+
+                                        </td>
+
+                                        <td>
+                                            {{gTotal|currency:"RM "}}
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+
+                                </table>
+
+                                <div class="row" >
+                                    <div class="col-md-9">
+                                        <button type="button" class="btn btn-md" data-ng-click="addRow()">Add Row</button>
+                                    </div>
+
+                                    <div class="col-md-3" >
+                                        <button type="button" class="btn btn-primary btn-md" data-dismiss="modal" data-ng-click="sendQuote()">Send</button>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <md-toolbar md-scroll-shrink="">
+                <div class="md-toolbar-tools">
+                    <h3>
+                        <span>Quotations Sent</span>
+                    </h3>
+                </div>
+            </md-toolbar>
+
+            <div id="quotes">
+                <div style="background-color:#F5F5F5" ng-repeat="q in currentInq.quotations track by $index">
+                    <md-list flex>
+                        <md-list-item class="md-3-line"  ng-click="''" data-toggle="modal" data-target="#mModal{{$index}}">
+                            <img ng-if="q.payment == undefined" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJO9WNiqBnKiS88FiXyDsR8-uqLjZKGsjo_mg3ytMA6_oBapRE1g" class="md-avatar glyphicon" alt="quote logo"/>
+
+                            <img ng-if="q.payment != undefined" src="http://pngimg.com/uploads/dollar_sign/dollar_sign_PNG8.png" class="md-avatar glyphicon" alt="quote logo"/>
+
+                            <div class="md-list-item-text" layout="column">
+                                <h3>Quotation #{{$index+1}}</h3>
+                                <h4>Grand total: {{ q.gTotal|currency:'RM' }}</h4>
+                                <p>Number of bearings: {{q.quoteBearings.length}}</p>
+                            </div>
+
+                        </md-list-item>
+
+
+                    </md-list>
+
+                    <div id="mModal{{$index}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Quotation</h4>
+                                </div>
+
+                                <div class="modal-body" >
+                                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp " align="center">
+
+                                        <thead>
+                                            <tr>
+                                                <th class="mdl-data-table__cell--non-numeric">
+                                                    #
+                                                </th>
+
+                                                <th class="mdl-data-table__cell--non-numeric">
+                                                    Serial Number
+                                                </th>
+
+                                                <th>
+                                                    Quantity
+                                                </th>
+
+                                                <th>
+                                                    Price/ unit
+                                                </th>
+
+                                                <th>
+                                                    Total
+                                                </th>
+
+                                                <th>
+
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr ng-repeat="s in q.quoteBearings track by $index">
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{$index+1}}
+                                                </td>
+
+                                                <td class="mdl-data-table__cell--non-numeric">
+                                                    {{s.serialNo}}
+                                                </td>
+
+                                                <td>
+                                                    {{s.quantity}}
+                                                </td>
+
+                                                <td>
+                                                    {{s.pricePerUnit}}
+                                                </td>
+
+                                                <td>
+                                                    {{s.total | currency:"RM"}}
+                                                </td>
+
+
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2">
+                                                    Grand Total
+                                                </td>
+
+                                                <td>
+
+                                                </td>
+                                                <td>
+
+                                                </td>
+
+                                                <td>
+                                                    {{q.gTotal|currency:"RM"}}
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+
+
+
+
+                                    </table>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>

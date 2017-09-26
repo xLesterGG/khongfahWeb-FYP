@@ -1,0 +1,289 @@
+<div style="background-color:#; height:100vh;">
+    <div class="container" data-ng-controller="historyCtrl" ng-init="getInq();updateUsers()">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="display-3">Payments</h2>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th data-ng-click="orderByField='date'; reverseSort = !reverseSort">
+                                Payment Time
+
+                                <span ng-show="orderByField == 'date'">
+                                    <span ng-show="!reverseSort" class="glyphicon glyphicon-chevron-up"></span>
+                                    <span ng-show="reverseSort" class="glyphicon glyphicon-chevron-down"></span>
+                                </span>
+
+                            </th>
+
+                            <th>
+                                Transaction ID
+                            </th>
+
+                            <th data-ng-click="orderByField='customer'; reverseSort = !reverseSort">
+                                Customer
+                                <span ng-show="orderByField == 'customer'">
+                                    <span ng-show="!reverseSort" class="glyphicon glyphicon-chevron-up"></span>
+                                    <span ng-show="reverseSort" class="glyphicon glyphicon-chevron-down"></span>
+                                </span>
+                            </th>
+
+                            <th class="" data-ng-click="orderByField='paymentState'; reverseSort = !reverseSort">
+                                Payment Status
+                                <span ng-show="orderByField == 'paymentState'">
+                                    <span ng-show="!reverseSort" class="glyphicon glyphicon-chevron-up"></span>
+                                    <span ng-show="reverseSort" class="glyphicon glyphicon-chevron-down"></span>
+                                </span>
+                            </th>
+
+                            <th>
+                                Inquiry name
+                                <!-- Inquiry
+                                <span ng-show="orderByField == 'inquiryName'">
+                                    <span ng-show="!reverseSort" class="glyphicon glyphicon-chevron-up"></span>
+                                    <span ng-show="reverseSort" class="glyphicon glyphicon-chevron-down"></span>
+                                </span> -->
+                            </th>
+
+                            <th>
+                                <!-- Quotation number -->
+                            </th>
+
+                            <th class="" data-ng-click="orderByField='amount'; reverseSort = !reverseSort">
+                                Amount
+                                <span ng-show="orderByField == 'amount'">
+                                    <span ng-show="!reverseSort" class="glyphicon glyphicon-chevron-up"></span>
+                                    <span ng-show="reverseSort" class="glyphicon glyphicon-chevron-down"></span>
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr data-ng-repeat="p in payments|orderBy:orderByField:reverseSort">
+                            <td>
+                                {{p.time| date: 'medium'}}
+                            </td>
+
+                            <td >
+                                {{p.paymentID}}
+                            </td>
+
+                            <td>
+                                <div id="xymodal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                                    <div class="modal-dialog " role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-primary">
+                                                <h4 class="modal-title text-white ">Past inquiries</h4>
+                                            </div>
+
+                                            <div class="modal-body" >
+                                                <table class="table" align="center">
+
+                                                    <thead>
+                                                        <tr>
+                                                            <th >
+                                                                #
+                                                            </th>
+
+                                                            <th>
+                                                                Inquiry Title
+                                                            </th>
+
+                                                            <th>
+                                                                # of bearings requested
+                                                            </th>
+
+                                                            <th>
+                                                                # of quotes sent
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        <tr ng-repeat="y in allInq|inqFilter:p.customerID track by $index">
+                                                            <td class="">
+                                                                {{$index+1}}
+                                                            </td>
+
+                                                            <td class="">
+                                                                <a data-ng-click="reload()" target="_blank" href="#!/home/inbox/chat/{{y.inquiryID}}" >{{y.inquiryName}}</a>
+                                                            </td>
+
+                                                            <td>
+                                                                {{y.bearings.length}}
+                                                            </td>
+
+                                                            <td>
+                                                                <p ng-show="y.quotations == undefined">0</p>
+                                                                <p ng-show="y.quotations.length>0">{{y.quotations.length}}</p>
+                                                            </td>
+
+
+                                                        </tr>
+
+                                                    </tbody>
+
+
+
+
+                                                </table>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- <span  data-toggle="modal" data-target="#xymodal" class="badge badge-pill badge-primary">{{p.customer}}</span> -->
+                                <!-- <a href class="badge badge-primary" data-toggle="modal" data-target="#xymodal">{{p.customer}}</a> -->
+
+                                <button data-toggle="modal" data-target="#xymodal" class="btn btn-primary btn-sm" type="button">
+                                    {{p.customer}}
+                                </button>
+
+
+                            </td>
+
+                            <td>
+                                <span data-ng-if="p.paymentState == 'approved'">
+                                    <span class="text-success">Approved</span>
+                                </span>
+
+                            </td>
+
+
+
+                            <td>
+                                <button data-ng-click="openInq(p.inquiryID)" class="btn btn-primary btn-sm">
+                                {{p.inquiryName}}
+                                </button>
+                            </td>
+
+                            <td>
+                                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal{{$index}}">
+                                View Quote #{{p.quoteNumber}}
+                                </button>
+
+
+                                <div id="myModal{{$index}}" class="modal fade" role="dialog">
+
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-primary">
+                                                <h4 class="modal-title text-white">Quotation</h4>
+                                            </div>
+
+                                            <div class="modal-body" >
+                                                <table class="table" align="center">
+
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                #
+                                                            </th>
+
+                                                            <th>
+                                                                Serial Number
+                                                            </th>
+
+                                                            <th>
+                                                                Quantity
+                                                            </th>
+
+                                                            <th>
+                                                                Price/ unit
+                                                            </th>
+
+                                                            <th>
+                                                                Total
+                                                            </th>
+
+                                                            <th>
+
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        <tr ng-repeat="s in p.quote.quoteBearings track by $index">
+                                                            <td>
+                                                                {{$index+1}}
+                                                            </td>
+
+                                                            <td>
+                                                                {{s.serialNo}}
+                                                            </td>
+
+                                                            <td>
+                                                                {{s.quantity}}
+                                                            </td>
+
+                                                            <td>
+                                                                {{s.pricePerUnit}}
+                                                            </td>
+
+                                                            <td>
+                                                                {{s.total | currency:"RM"}}
+                                                            </td>
+
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td colspan="2">
+                                                                Grand Total
+                                                            </td>
+
+                                                            <td>
+
+                                                            </td>
+                                                            <td>
+
+                                                            </td>
+
+                                                            <td>
+                                                                {{p.quote.gTotal|currency:"RM"}}
+                                                            </td>
+
+                                                        </tr>
+                                                    </tbody>
+
+
+
+
+                                                </table>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                {{p.amount| currency:'RM'}}
+                            </td>
+                        </tr>
+                    </tbody>
+
+
+
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

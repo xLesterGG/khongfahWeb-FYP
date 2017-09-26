@@ -1,0 +1,81 @@
+<!-- style="background-image:url('../css/pic.jpg')" -->
+<div style="height:100vh;width:100vw;background-image:url('../css/pic.jpg');background-size:cover">
+
+    <div data-ng-controller="loginCtrl" class="container">
+        <div class="row center_div">
+                <div class="col-md col-sm"></div>
+
+                <div class="col-sm-6 col-md-4">
+                    <h1 class="text-center login-title text-white">Sign in to continue</h1>
+                    <div class="account-wall">
+                        <img class="profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                            alt="">
+
+                        <div data-ng-show="showlogin && !showsignup">
+                            <form class="form-signin" data-ng-submit="login(email,pass)">
+
+                                <input type="email" id="inputEmail" data-ng-model="email" class="form-control" placeholder="Email address" required autofocus>
+
+                                <input type="password" id="inputPassword" data-ng-model="pass" class="form-control" placeholder="Password" required>
+
+
+                                <div id="remember" class="checkbox">
+                                    <label>
+                                        <input type="checkbox" value="remember-me"/> Remember me
+                                    </label>
+                                </div>
+
+                                <button class="btn btn-primary btn-lg btn-block btn-lowered" type="submit">
+                                    Login
+                                </button>
+                            </form>
+
+                            <a href data-ng-click="showsignup = true" class="forgot-password text-margin">
+                                Don't have an account yet?
+                            </a><br />
+                            <a href data-ng-click="showlogin = false" class="forgot-password text-margin">
+                                Forgot the password?
+                            </a>
+                        </div>
+
+                        <div data-ng-show="showsignup">
+                            <form class="form-signin" data-ng-submit="register(emailsignup,passsignup,code)">
+                                <span id="reauth-email" class="reauth-email"></span>
+                                <input type="email" id="inputEmail" data-ng-model="emailsignup" class="form-control" placeholder="Email address" required autofocus>
+                                <input type="password" id="inputPassword" data-ng-model="passsignup" class="form-control" placeholder="Password" required>
+                                <input type="password" id="inputPassword" data-ng-model="code" class="form-control" placeholder="Registration Key" required>
+                                <button class="btn btn-lg btn-primary btn-block btn-lowered" type="submit">Sign up</button>
+                                <a href data-ng-click="showsignup = false" class="forgot-password">
+                                    Already have an account? Login
+                                </a>
+                            </form>
+                        </div>
+
+                        <div data-ng-show="!showlogin">
+                            <p class="text-center login-title">
+                                Please enter your email address to reset your password.
+                            </p>
+
+                            <form class="form-signin" data-ng-submit="resetPassword(email)">
+                                <input type="email" data-ng-model="email" class="form-control" placeholder="Email address" required autofocus>
+
+
+                                <button class="btn btn-lg btn-primary btn-block btn-lowered" type="submit">Reset password</button>
+                            </form>
+
+                            <a href data-ng-click="showlogin = true" class="forgot-password text-margin">
+                                Already have an account? Login
+                            </a>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+                <div class="col-md col-sm"></div>
+            </div>
+    </div>
+
+</div>

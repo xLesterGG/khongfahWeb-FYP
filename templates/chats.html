@@ -1,0 +1,585 @@
+<div data-ng-controller="chatBoxCtrl" data-ng-init="updateFilter(); autojoinRoom();getInq();" class="row" style="background-color:white">
+
+    <div class="col-md-8 conversation">
+        <div id="mmmodal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h4 class="modal-title text-white">Past inquiries</h4>
+                    </div>
+
+                    <div class="modal-body" >
+                        <table class="table" align="center">
+
+                            <thead>
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+
+                                    <th>
+                                        Inquiry Title
+                                    </th>
+
+                                    <th>
+                                        # of bearings requested
+                                    </th>
+
+                                    <th>
+                                        # of quotes sent
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-repeat="y in allInq|inqFilter:currentInq.inquiryOwner track by $index">
+                                    <td>
+                                        {{$index+1}}
+                                    </td>
+
+                                    <td>
+                                        <a target="_blank" href="#!/home/inbox/chat/{{y.inquiryID}}">{{y.inquiryName}}</a>
+                                    </td>
+
+                                    <td>
+                                        {{y.bearings.length}}
+                                    </td>
+
+                                    <td>
+                                        <p ng-show="y.quotations == undefined">0</p>
+                                        <p ng-show="y.quotations.length>0">{{y.quotations.length}}</p>
+                                    </td>
+
+
+                                </tr>
+
+                            </tbody>
+
+
+
+
+                        </table>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card" style="margin-top:5px">
+            <h4 class="card-header bg-primary text-white">
+                Inquiry title:  {{currentInq.inquiryName}}
+
+                <div class="dropdown float-right">
+
+                    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">See more</button>
+
+
+                  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Move to
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a ng-show="currentInq.status !='trash'" class="dropdown-item" href data-ng-click="toTrash(currentInq)">Move to trash</a>
+
+                    <a ng-show="currentInq.status =='trash'" class="dropdown-item" href data-ng-click="toInbox(currentInq)">Move to Inbox</a>
+
+                  </div>
+                </div>
+
+                <!-- <a href class="text-white" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">See more</a> -->
+                <!-- <button class="btn btn-light btn-sm text-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    See more
+                </button> -->
+            </h4>
+
+            <div class="card-body collapse" id="collapseExample" >
+                <h4 class="class-title">{{currentUser.name}} <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#mmmodal">Details</button></h4>
+                <h6 class="card-subtitle mb-2 text-muted">{{currentUser.email}}</h6>
+
+            </div>
+        </div>
+
+        <!-- <div style="background-color:#F5F5F5">
+            <md-toolbar md-scroll-shrink="">
+                <div class="md-toolbar-tools">
+                    <h3>
+                        <span>Inquiry title:  {{currentInq.inquiryName}}</span>
+                    </h3>
+                </div>
+            </md-toolbar>
+
+            <md-card  md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch>
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">
+                            {{currentUser.name}}
+                            <md-button class="md-raised md-primary" data-toggle="modal" data-target="#mmmodal">Details</md-button>
+                        </span>
+
+                        <span class="md-subhead">
+                            <p>
+                                {{currentUser.email}} <br>
+                            </p>
+                        </span>
+                    </md-card-title-text>
+
+                    <md-card-title-media>
+                        <div class="md-media-sm card-media">
+                            <img class="image" ng-click="view()" ng-src="http://img.clipartall.com/user-image-user-clipart-276_298.png" alt="user picture"/>
+                        </div>
+                    </md-card-title-media>
+                </md-card-title>
+            </md-card>
+        </div> -->
+
+        <div id="convo" data-ng-model="convo" class="row">
+
+            <div class="col-md-12 scrollbar" id="style-1">
+                <div data-ng-repeat="msg in messages |filter: filterR track by $index">
+                    <div ng-if="msg.messageUser!='admin'">
+                        <div ng-if="msg.link==undefined || msg.link==''" class="bubble you" data-toggle="tooltip" data-placement="left" title="{{msg.messageTime|| secondsToDateTime | date:'short'}}">
+                            <span style="white-space: pre-line">{{msg.messageText}}</span>
+                        </div>
+
+                        <div ng-if="msg.link!=undefined && msg.link!=''" class="bubble you">
+                            <span style="white-space: pre-line"><img class="image" style="width:200px; height:auto" ng-src="{{msg.link}}"ng-click="view()" data-toggle="tooltip" data-placement="left" title="{{msg.messageTime|| secondsToDateTime | date:'short'}}"/></span>
+                        </div>
+
+
+                    </div>
+
+                    <div ng-if="msg.messageUser=='admin'">
+                        <div ng-if="msg.link==undefined || msg.link==''" class="bubble me" data-toggle="tooltip" data-placement="right" title="{{msg.messageTime|| secondsToDateTime | date:'short'}}">
+                            <span style="white-space: pre-line">{{msg.messageText}}</span>
+                        </div>
+
+                        <div ng-if="msg.link!=undefined && msg.link!=''" class="bubble me">
+                            <span style="white-space: pre-line"><img class="image" style="width:200px; height:auto" ng-src="{{msg.link}}" ng-click="view()" data-toggle="tooltip" data-placement="right" title="{{msg.messageTime|| secondsToDateTime | date:'short'}}"/></span>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <!-- <div class="bubble me">
+                    <span style="white-space: pre-line"><img style="width:200px; height:auto" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlTOM_N8sY92JegiU0tncoQtDbFK3O58cGjSpn9z2sC1uLSU6Zdw" /></span>
+                </div> -->
+            </div>
+
+        </div>
+
+
+        <div id="sMsg">
+            <form ng-submit="sendMessage2()">
+
+                <!-- <div class="row">
+                    <div class="col-md-12" style="background-color:#F5F5F5">
+                        <md-input-container class="md-block" flex-gt-sm>
+                              <label>Your message</label>
+                              <input ng-model="user.firstName">
+                            </md-input-container>
+                    </div>
+                </div> -->
+
+                <div class="row col-md-12">
+
+                    <!-- <div class="container">
+                      <div class="row">
+                        <div class="col-md-10">
+                            <p class="lead emoji-picker-container">
+                              <input class="form-control" placeholder="Type a message" data-ng-click="updateRead()" type="text" data-ng-model="inputMessage" data-emojiable="true"/>
+                            </p>
+                        </div>
+                      </div>
+                    </div> -->
+
+                    <!-- <input class="form-control col-md-9" placeholder="Type a message" data-ng-click="updateRead()" type="text" data-ng-model="inputMessage"/> -->
+
+
+                    <textarea class="form-control col-md" id="usermsg" placeholder="Type a message" data-ng-click="updateRead()" data-ng-model="inputMessage"></textarea>
+
+                    <!-- <input class="form-control col-md-10" placeholder="Type a message" data-ng-click="updateRead()" type="text" data-emojiable="true" data-ng-model="inputMessage"/> -->
+                    <button class="btn btn-primary" data-ng-model="inputMessage">Send</button>
+
+                    <input id="fileInput" type="file" style="display:none;" ng-model="photo" onchange="angular.element(this).scope().file_changed(this)" type="file" accept="image/*"/>
+
+                    <button style="margin-left:20px" class="btn btn-primary" onclick="document.getElementById('fileInput').click();">Send Image</button>
+
+                    <div class="modal fade" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="imgModal" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header bg-primary text-white">
+                                    <h5 class="modal-title " id="exampleModalLabel">Confirm Image upload</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+
+                                <div class="modal-body">
+                                    <div class="col-md">
+                                        <img class="text-center" style="width:250px; height:auto;" ng-src="{{loadedFile}}" alt=""/>
+                                    </div>
+
+
+
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button type="button" data-ng-click="upload()" class="btn btn-primary">Confirm upload</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- <div class="write">
+                    <a href="javascript:;" class="write-link attach"></a>
+                    <input data-ng-click="updateRead()" type="text" data-ng-model="inputMessage"/>
+                    <a href="javascript:;" class="write-link smiley"></a>
+                    <a href="javascript:;" class="write-link send"></a>
+
+                </div> -->
+
+            </form>
+        </div>
+
+
+
+    </div>
+
+
+    <div class="col-md-4" style="border-left: 1px solid #e6e6e6;">
+
+
+        <div class="card" style="margin-top:15px">
+            <h4 class="card-header bg-primary text-white">Bearings Requested <span class="badge badge-light text-primary">{{currentInq1.bearings.length}}</span></h4>
+
+            <div id="bearings">
+                <div class="card-body" style="border-top:1px solid #e6e6e6" data-ng-repeat="b in currentInq1.bearings track by $index">
+                    <a href><img style="width:4.16vw;height:auto" ng-show="b.imageUrl!=''" class="image float-md-right" ng-click="view()" ng-src="{{b.imageUrl}}" alt="bearing picture"/></a>
+                    <!-- <a href><img style="width:4.16vw;height:auto" ng-show="b.imageUrl==''" class="image float-md-right" ng-src="{{b.imageUrl}}" alt="not given"/></a> -->
+
+                    <!-- <a href><img style="width:4.16vw;height:auto" class="image float-md-right" ng-click="view()" ng-src="http://www.smiley.com/sites/default/files/BRAND_SMILEY_MAIN.jpg" alt="bearing picture"/></a> -->
+
+                    <h4 class="card-title" ng-show="b.serialNo!=''">Serial No: {{b.serialNo}}</h4>
+
+<!--  -->
+
+                    <h4 class="card-title" ng-show="b.serialNo==''">Serial number not provided</h4>
+
+                    #{{$index+1}}
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Height
+                                </th>
+                                <th>
+                                    Diameter (I)
+                                </th>
+                                <th>
+                                    Diameter (O)
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td class="text-info">
+                                    {{b.height}} mm
+                                </td>
+
+                                <td class="text-info">
+                                    {{b.diameterI}} mm
+                                </td>
+
+                                <td class="text-info">
+                                    {{b.diameterO}} mm
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    <p class="card-text">Extra comments: {{b.extraComment}}</p>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Quotation -->
+
+        <div class="quotation" data-ng-repeat="inq in allInq|customFilter:chatID track by $index">
+
+            <button style="" type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal{{$index}}" > Send Quotation </button>
+
+
+            <div id="myModal{{$index}}" class="modal fade" role="dialog">
+
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary">
+                            <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+                            <h4 class="modal-title text-white">Quotation</h4>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <table class="table" align="center">
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+
+                                    <th>
+                                        Serial Number
+                                    </th>
+
+                                    <th>
+                                        Quantity
+                                    </th>
+
+                                    <th>
+                                        Price/ unit
+                                    </th>
+
+                                    <th>
+                                        Total
+                                    </th>
+
+                                    <th>
+
+                                    </th>
+                                </tr>
+
+                                <tr ng-repeat="s in currentInq.bearings track by $index">
+                                    <td>
+                                        {{$index+1}}
+                                    </td>
+
+                                    <td>
+                                        <!-- {{s.serialNo}} -->
+                                        <!-- <input type="text" class="form-control no-border" data-ng-model="bearing[$index]" value="{{s.serialNo}}"/> -->
+
+                                        <input type="text" class="form-control no-border input-sm" data-ng-init="bearing[$index]='{{s.serialNo}}'" data-ng-model="bearing[$index]" value="{{s.serialNo}}" data-ng-change="updateBearings($index,bearing[$index])"/>
+
+                                        <!-- <input type="text" class="form-control no-border input-sm" id="bearing[]" value="{{s.serialNo}}"/> -->
+
+
+                                        <!-- {{s.serialNo}} -->
+                                    </td>
+
+                                    <td>
+                                        <input type="number" style="width:5vw" class="input-sm form-control no-border" data-ng-model="quantity[$index]" size="1" data-ng-init="quantity[$index]=0" ng-change="getTotal();"/>
+                                    </td>
+
+                                    <td>
+                                        <input type="number"  style="width:5vw" class="input-sm form-control no-border" data-ng-model="ppu[$index]" data-ng-init="ppu[$index] = 0" size="1" ng-change="getTotal();"/>
+                                    </td>
+
+                                    <td>
+                                        <span data-ng-model="total[$index]">
+                                            {{quantity[$index]*ppu[$index] | currency:'RM '}}
+                                        </span>
+                                    </td>
+
+                                    <td data-ng-model="gTotal">
+                                        <!-- <a style="text-decoration:none" class="glyphicon glyphicon-remove" data-ng-click="removeRow($index);" aria-hidden="true"></a> -->
+                                        <img style="width:16px; height:auto;" src="http://www.freeiconspng.com/uploads/close-icon-7.png" data-ng-click="removeRow($index);"/>
+
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+
+                                    </td>
+
+                                    <td>
+                                        {{gTotal|currency:"RM "}}
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                            <div class="row" >
+                                <div class="col-md-10">
+                                    <button type="button" class="btn btn-md" data-ng-click="addRow()">Add Row</button>
+                                </div>
+
+                                <div class="col-md-2" >
+                                    <button type="button" class="btn btn-primary btn-md" data-dismiss="modal" data-ng-click="sendQuote()">Send</button>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- quotation end--->
+
+        <div class="card" style="margin-top:60px">
+            <h4 class="card-header bg-primary text-white">Quotations sent <span class="badge badge-light text-primary">{{currentInq1.quotations.length}}</span> </h4>
+
+
+                <div id="quotes">
+                    <div ng-repeat="q in currentInq.quotations track by $index">
+                        <div class="card-body" style="border-top:1px solid #e6e6e6" data-toggle="modal" data-target="#mModal{{$index}}">
+                            <img ng-if="q.payment == undefined" alt="quote logo" src="https://www.dapd.net/content/uploads/2012/08/DAP_Icon_Mail-400x400.jpg" style="width:80px;height:auto;margin-right:10px" class="float-md-left"/>
+
+                            <img ng-if="q.payment != undefined" src="https://cdn.dribbble.com/users/9866/screenshots/672155/paid_stamp.png" style="width:80px;height:auto;margin-right:10px" class="float-md-left" alt="quote logo"/>
+
+                            <h5>Quotation #{{$index+1}}</h5>
+                            <h6>Grand total: {{ q.gTotal|currency:'RM' }}</h6>
+                            <p class="">Grand Total: {{q.quoteBearings.length}}</p>
+
+                        </div>
+
+
+                        <div id="mModal{{$index}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-primary">
+                                        <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+                                        <h4 class="modal-title text-white">Quotation</h4>
+                                    </div>
+
+                                    <div class="modal-body" >
+                                        <table class="table" align="center">
+
+                                            <thead>
+                                                <tr>
+                                                    <th class="">
+                                                        #
+                                                    </th>
+
+                                                    <th class="">
+                                                        Serial Number
+                                                    </th>
+
+                                                    <th>
+                                                        Quantity
+                                                    </th>
+
+                                                    <th>
+                                                        Price/ unit
+                                                    </th>
+
+                                                    <th>
+                                                        Total
+                                                    </th>
+
+                                                    <th>
+
+                                                    </th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr ng-repeat="s in q.quoteBearings track by $index">
+                                                    <td scope="row">
+                                                        {{$index+1}}
+                                                    </td>
+
+                                                    <td>
+                                                        {{s.serialNo}}
+                                                    </td>
+
+                                                    <td>
+                                                        {{s.quantity}}
+                                                    </td>
+
+                                                    <td>
+                                                        {{s.pricePerUnit}}
+                                                    </td>
+
+                                                    <td>
+                                                        {{s.total | currency:"RM"}}
+                                                    </td>
+
+
+                                                </tr>
+
+                                                <tr >
+                                                    <td colspan="2">
+                                                        Grand Total
+                                                    </td>
+
+                                                    <td>
+
+                                                    </td>
+                                                    <td>
+
+                                                    </td>
+
+                                                    <td class="table-primary">
+                                                        {{q.gTotal|currency:"RM"}}
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+
+
+
+
+                                        </table>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+
+
+</div>
+
+<!-- <div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button type="button" class="mdl-snackbar__action"></button>
+</div> -->

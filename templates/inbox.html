@@ -1,0 +1,286 @@
+    <div class="row" >
+        <div class="col-md-3 col-sm-12" id="cont">
+            <h2 class="display-3" id="head" data-ng-show="selected=='inbox'"> Inbox
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Filter
+                    </button>
+                        <div class="dropdown-menu">
+                        <a class="dropdown-item" href data-ng-click="selected='trash'">Trash</a>
+                        <div class="dropdown-divider"></div>
+
+                        <a class="dropdown-item" href data-ng-click="selected='paid'">Paid</a>
+                        <a class="dropdown-item" href data-ng-click="selected='unpaid'">Unpaid</a>
+                        <div class="dropdown-divider"></div>
+
+                        <a class="dropdown-item" href data-ng-click="selected='read'">Read</a>
+                        <a class="dropdown-item" href data-ng-click="selected='unread'">Unread</a>
+
+                    </div>
+                </div>
+            </h2>
+
+            <h1 class="display-3" id="head" data-ng-show="selected=='trash'"> Trash
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Filter
+                    </button>
+                        <div class="dropdown-menu">
+                        <a class="dropdown-item" href data-ng-click="selected='inbox'">Inbox</a>
+                        <div class="dropdown-divider"></div>
+
+                        <a class="dropdown-item" href data-ng-click="selected='paid'">Paid</a>
+                        <a class="dropdown-item" href data-ng-click="selected='unpaid'">Unpaid</a>
+                        <div class="dropdown-divider"></div>
+
+                        <a class="dropdown-item" href data-ng-click="selected='read'">Read</a>
+                        <a class="dropdown-item" href data-ng-click="selected='unread'">Unread</a>
+                    </div>
+                </div>
+            </h1>
+
+            <h1 class="display-3" id="head" data-ng-show="selected=='paid'"> Paid
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Filter
+                    </button>
+                        <div class="dropdown-menu">
+                        <a class="dropdown-item" href data-ng-click="selected='inbox'">Inbox</a>
+                        <a class="dropdown-item" href data-ng-click="selected='trash'">Trash</a>
+                        <div class="dropdown-divider"></div>
+
+                        <a class="dropdown-item" href data-ng-click="selected='unpaid'">Unpaid</a>
+                        <div class="dropdown-divider"></div>
+
+                        <a class="dropdown-item" href data-ng-click="selected='read'">Read</a>
+                        <a class="dropdown-item" href data-ng-click="selected='unread'">Unread</a>
+                    </div>
+                </div>
+            </h1>
+
+            <h1 class="display-3" id="head" data-ng-show="selected=='read'"> Read
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Filter
+                    </button>
+                        <div class="dropdown-menu">
+                        <a class="dropdown-item" href data-ng-click="selected='inbox'">Inbox</a>
+                        <a class="dropdown-item" href data-ng-click="selected='trash'">Trash</a>
+                        <div class="dropdown-divider"></div>
+
+                        <a class="dropdown-item" href data-ng-click="selected='paid'">Paid</a>
+                        <a class="dropdown-item" href data-ng-click="selected='unpaid'">Unpaid</a>
+                        <div class="dropdown-divider"></div>
+
+                        <a class="dropdown-item" href data-ng-click="selected='unread'">Unread</a>
+                    </div>
+                </div>
+            </h1>
+
+            <h1 class="display-4" id="head" data-ng-show="selected=='unread'"> Unread
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Filter
+                    </button>
+                        <div class="dropdown-menu">
+                        <a class="dropdown-item" href data-ng-click="selected='inbox'">Inbox</a>
+                        <a class="dropdown-item" href data-ng-click="selected='trash'">Trash</a>
+                        <div class="dropdown-divider"></div>
+
+                        <a class="dropdown-item" href data-ng-click="selected='paid'">Paid</a>
+                        <a class="dropdown-item" href data-ng-click="selected='unpaid'">Unpaid</a>
+                        <div class="dropdown-divider"></div>
+
+                        <a class="dropdown-item" href data-ng-click="selected='read'">Read</a>
+                    </div>
+                </div>
+            </h1>
+
+            <h5 class="display-4" id="head" data-ng-show="selected=='unpaid'"> Unpaid
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Filter
+                    </button>
+                        <div class="dropdown-menu">
+                        <a class="dropdown-item" href data-ng-click="selected='inbox'">Inbox</a>
+                        <a class="dropdown-item" href data-ng-click="selected='trash'">Trash</a>
+                        <div class="dropdown-divider"></div>
+
+                        <a class="dropdown-item" href data-ng-click="selected='paid'">Paid</a>
+                        <div class="dropdown-divider"></div>
+
+                        <a class="dropdown-item" href data-ng-click="selected='read'">Read</a>
+                        <a class="dropdown-item" href data-ng-click="selected='unread'">Unread</a>
+                    </div>
+                </div>
+            </h5>
+
+
+            <div id="inqs" data-ng-if="selected=='inbox'">
+                <ul class="people">
+                    <li class="person" data-ng-repeat="inq in allInquiryList |orderObjectBy:'lastMesage.messageTime':true|filter:getInbox track by $index " data-chat="person{{$index}}" ui-sref-active="active" data-ui-sref="home.inbox.chat({id: inq.inquiryID})" data-ng-click="updateRead(inq)">
+
+                        <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="" />
+                        <span class="name">{{inq.inquiryName}}</span>
+                        <span class="time">{{inq.lastMessage.messageTime | date: 'hh:mm a' }}</span>
+
+                        <div data-ng-show="(inq.lastMessage.messageRead==false) && (inq.lastMessage.messageUser!='admin')">
+                            <span class="preview">
+                              <strong>{{inq.lastMessage.messageText}}</strong>
+                            </span>
+
+                        </div>
+
+                        <div data-ng-show="inq.lastMessage.messageRead==true || inq.lastMessage.messageUser=='admin'">
+                            <span class="preview">{{inq.lastMessage.messageText}}</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="inqs" data-ng-if="selected=='trash'">
+                <ul class="people">
+                    <li class="person" data-ng-repeat="inq in allInquiryList |orderObjectBy:'lastMesage.messageTime':true| filter:getTrash track by $index " data-chat="person{{$index}}" ui-sref-active="active" data-ui-sref="home.inbox.chat({id: inq.inquiryID})" data-ng-click="updateRead(inq)">
+
+                        <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="" />
+                        <span class="name">{{inq.inquiryName}}</span>
+                        <span class="time">{{inq.lastMessage.messageTime | date: 'hh:mm a' }}</span>
+
+                        <div data-ng-show="(inq.lastMessage.messageRead==false) && (inq.lastMessage.messageUser!='admin')">
+                            <span class="preview">
+                              <strong>{{inq.lastMessage.messageText}}</strong>
+                            </span>
+
+                        </div>
+
+                        <div data-ng-show="inq.lastMessage.messageRead==true || inq.lastMessage.messageUser=='admin'">
+                            <span class="preview">{{inq.lastMessage.messageText}}</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+
+
+
+            <div id="inqs" data-ng-if="selected=='paid'">
+                <ul class="people">
+                    <li class="person" data-ng-repeat="inq in allInquiryList | orderObjectBy:'lastMesage.messageTime':true | filter:getPaid track by $index " data-chat="person{{$index}}" ui-sref-active="active" data-ui-sref="home.inbox.chat({id: inq.inquiryID})" data-ng-click="updateRead(inq)">
+
+                        <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="" />
+                        <span class="name">{{inq.inquiryName}}</span>
+                        <span class="time">{{inq.lastMessage.messageTime | date: 'hh:mm a' }}</span>
+
+                        <div data-ng-show="(inq.lastMessage.messageRead==false) && (inq.lastMessage.messageUser!='admin')">
+                            <span class="preview">
+                              <strong>{{inq.lastMessage.messageText}}</strong>
+                            </span>
+
+                        </div>
+
+                        <div data-ng-show="inq.lastMessage.messageRead==true || inq.lastMessage.messageUser=='admin'">
+                            <span class="preview">{{inq.lastMessage.messageText}}</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="inqs" data-ng-if="selected=='unpaid'">
+                <ul class="people">
+                    <li class="person" data-ng-repeat="inq in allInquiryList | orderObjectBy:'lastMesage.messageTime':true | filter:getUnpaid track by $index " data-chat="person{{$index}}" ui-sref-active="active" data-ui-sref="home.inbox.chat({id: inq.inquiryID})" data-ng-click="updateRead(inq)">
+
+                        <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="" />
+                        <span class="name">{{inq.inquiryName}}</span>
+                        <span class="time">{{inq.lastMessage.messageTime | date: 'hh:mm a' }}</span>
+
+                        <div data-ng-show="(inq.lastMessage.messageRead==false) && (inq.lastMessage.messageUser!='admin')">
+                            <span class="preview">
+                              <strong>{{inq.lastMessage.messageText}}</strong>
+                            </span>
+
+                        </div>
+
+                        <div data-ng-show="inq.lastMessage.messageRead==true || inq.lastMessage.messageUser=='admin'">
+                            <span class="preview">{{inq.lastMessage.messageText}}</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="inqs" data-ng-if="selected=='read'">
+                <ul class="people">
+                    <li class="person" data-ng-repeat="inq in allInquiryList | orderObjectBy:'lastMesage.messageTime':true | filter:getRead track by $index " data-chat="person{{$index}}" ui-sref-active="active" data-ui-sref="home.inbox.chat({id: inq.inquiryID})" data-ng-click="updateRead(inq)">
+
+                        <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="" />
+                        <span class="name">{{inq.inquiryName}}</span>
+                        <span class="time">{{inq.lastMessage.messageTime | date: 'hh:mm a' }}</span>
+
+                        <div data-ng-show="(inq.lastMessage.messageRead==false) && (inq.lastMessage.messageUser!='admin')">
+                            <span class="preview">
+                              <strong>{{inq.lastMessage.messageText}}</strong>
+                            </span>
+
+                        </div>
+
+                        <div data-ng-show="inq.lastMessage.messageRead==true || inq.lastMessage.messageUser=='admin'">
+                            <span class="preview">{{inq.lastMessage.messageText}}</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div id="inqs" data-ng-if="selected=='unread'">
+                <ul class="people">
+                    <li class="person" data-ng-repeat="inq in allInquiryList | orderObjectBy:'lastMesage.messageTime':true | filter:getUnread track by $index " data-chat="person{{$index}}" ui-sref-active="active" data-ui-sref="home.inbox.chat({id: inq.inquiryID})" data-ng-click="updateRead(inq)">
+
+                        <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="" />
+                        <span class="name">{{inq.inquiryName}}</span>
+                        <span class="time">{{inq.lastMessage.messageTime | date: 'hh:mm a' }}</span>
+
+                        <div data-ng-show="(inq.lastMessage.messageRead==false) && (inq.lastMessage.messageUser!='admin')">
+                            <span class="preview">
+                              <strong>{{inq.lastMessage.messageText}}</strong>
+                            </span>
+
+                        </div>
+
+                        <div data-ng-show="inq.lastMessage.messageRead==true || inq.lastMessage.messageUser=='admin'">
+                            <span class="preview">{{inq.lastMessage.messageText}}</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+
+
+
+        </div>
+
+        <div class="col-md-9 col-sm-12 chats" >
+            <div data-ui-view ></div>
+        </div>
+    </div>
+
+
+
+
+    <script>
+        $(document).ready(function(){
+            $('.person').mousedown(function(){
+                // alert('wew');
+                if ($(this).hasClass('.active')) {
+                    return false;
+                } else {
+                    var findChat = $(this).attr('data-chat');
+                    var personName = $(this).find('.name').text();
+                    // $('.right .top .name').html(personName);
+                    $('.chat').removeClass('active-chat');
+                    $('.person').removeClass('active');
+                    $(this).addClass('active');
+                    $('.chat[data-chat = '+findChat+']').addClass('active-chat');
+                    console.log(findChat);
+                }
+            });
+        });
+    </script>

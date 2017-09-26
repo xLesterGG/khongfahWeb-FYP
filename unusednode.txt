@@ -1,0 +1,138 @@
+client.on("join",(name)=>{
+    console.log('joined');
+    var joinedRooms = [];  // list of room ids
+    var ownedRooms = []; // list of room ids
+
+    people[client.id] = {"name" : name, "joinedRooms": joinedRooms, "ownedRooms": ownedRooms};   //create new people object
+    client.emit("systemMessage", "You (" + name + ") have connected to the server"); // alert
+
+    var message;
+    if(ready){
+        if(Object.keys(inquiries).length == 0 ){
+            message= "There are currently no inquiries";
+        }else{
+            var msg = "The available inquiries are ";
+
+            var aR = [];
+            for(var key in inquiries){
+                aR.push(inquiries[key]);
+            }
+
+            for(var i = 0 ; i < aR.length;i++){
+                if(i==0){
+                    msg = msg + aR[i].inquiryName ;
+                }
+                else if(i == rooms.length -1){
+                    msg = msg + "," +aR[i].inquiryName + "." ;
+                }
+                else{
+                    msg = msg + ","+ aR[i].inquiryName ;
+                }
+            }
+
+            message  = msg;
+        }
+        client.emit("listRoom",message); // list available rooms
+        socket.sockets.emit("updateRoomList",conversations);
+    }
+
+});
+
+
+
+
+
+// client.on("createRoom",(name)=>{
+//     var id = uuid.v4();
+//     var room = new Room(name,id,client.id); // create room obj
+//
+//     // people[client.id].ownedRooms.push(room.id); // update people object
+//     // people[client.id].joinedRooms.push(room.roomID); // update people object
+//
+//     // room.addPerson(client.id); // update room object
+//     room.peoples.push(client.id);
+//
+    // database.ref('/enquiries/'+room.id).set({
+    //     roomName:room.name,
+    //     roomID:room.id,
+    //     roomOwner: room.owner,
+    //     peoples : room.peoples
+    // });
+//
+//     client.joinedRooms.push(room.id); // update socket object
+//     // client.ownedRooms.push(room.id); // update socket object
+//
+//     client.join(client.joinedRooms[client.joinedRooms.length -1 ], ()=>{ // join room
+//         socket.sockets.emit("updateRoomList",rooms);
+//
+//         client.emit("systemMessage","Welcome to room " + room.name +".");
+//         client.emit("systemMessage", "You are the owner of this room and you are automatically joined.");
+//         client.emit("systemMessage", "Room id is " + room.id);
+//
+//         var joinedRooms = {};
+//         joinedRooms.list = [];
+//
+//         var msg = "You are currenly joined to rooms : "
+//         for(var i = 0; i<client.joinedRooms.length;i++){
+//             if(i==0){
+//                    msg = msg + rooms[client.joinedRooms[i]].roomName ;
+//                    joinedRooms.list.push(rooms[client.joinedRooms[i]]);
+//                }
+//                else if(i == client.joinedRooms.length -1){
+//                    msg = msg + "," +rooms[client.joinedRooms[i]].roomName + "." ;
+//                    joinedRooms.list.push(rooms[client.joinedRooms[i]]);
+//                }
+//                else{
+//                    msg = msg + ","+ rooms[client.joinedRooms[i]].roomName ;
+//                    joinedRooms.list.push(rooms[client.joinedRooms[i]]);
+//                }
+//         }
+//         joinedRooms.msg = msg;
+//         client.emit("getJoinedRooms",joinedRooms); // list joined rooms
+//     });
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// under join room
+// people[client.id].joinedRooms.push(room.id);
+// client.joinedRooms.push(room.roomID);
+// client.join(client.joinedRooms[client.joinedRooms.length-1],()=>{
+//
+//     socket.sockets.in(room.roomID).emit("systemMessage",people[client.id].name + " has connected to the room "+ room.roomName);
+//     client.emit("systemMessage","Welcome to room " + room.roomName +".");
+//     client.emit("systemMessage", "Room id is " + room.roomID);
+//
+//     var joinedRooms = {};
+//     joinedRooms.list = [];
+//
+//     var msg = "You are currenly joined to rooms : "
+//     for(var i = 0; i<client.joinedRooms.length;i++){
+//         if(i==0){
+//                msg = msg + rooms[client.joinedRooms[i]].roomName ;
+//                joinedRooms.list.push(rooms[client.joinedRooms[i]]);
+//            }
+//            else if(i == client.joinedRooms.length -1){
+//                msg = msg + "," +rooms[client.joinedRooms[i]].roomName + "." ;
+//                joinedRooms.list.push(rooms[client.joinedRooms[i]]);
+//            }
+//            else{
+//                msg = msg + ","+ rooms[client.joinedRooms[i]].roomName ;
+//                joinedRooms.list.push(rooms[client.joinedRooms[i]]);
+//            }
+//     }
+//     joinedRooms.msg = msg;
+//     client.emit("getJoinedRooms",joinedRooms); // list joined rooms
+// });
