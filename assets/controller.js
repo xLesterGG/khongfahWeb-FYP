@@ -31,7 +31,7 @@ var socket= io.connect("http://localhost:3000");
 
 
 app.controller("loginCtrl",($scope,$state,$cookieStore)=>{
-    if($cookieStore.get('kbLogged'))
+    if($cookieStore.get('kfLogged'))
     {
         $state.go('home.inbox');
     }
@@ -83,8 +83,8 @@ app.controller("loginCtrl",($scope,$state,$cookieStore)=>{
     socket.on("redirectToInbox",(user)=>{
         $state.go('home.inbox');
 
-        $cookieStore.put('kbLogged',true);
-        // $cookieStore.put('myFavorite',"emily")
+        $cookieStore.put('kfLogged',true);
+        // $cookieStore.put('myFavorite',"em")
         // $cookieStore.remove('myFavorite');
         // console.log($cookieStore.get('myFavorite'));
     });
@@ -353,29 +353,18 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
 
     $scope.selected = "inbox";
 
-    if(!$cookieStore.get('kbLogged')){
+    if(!$cookieStore.get('kfLogged')){
         socket.emit("getUser");
     }
 
-    // if($cookieStore.get('kbLogged'))
-    // {
-    //     var a = window.location.href.trim().split("/");
-    //     console.log(a.length);
-    //     console.log(a);
-    //
-    // }else{
-    //     socket.emit("getUser");
-    // }
-
     $scope.abc= function logshit(){
-        console.log($cookieStore.get('kbLogged'));
+        console.log($cookieStore.get('kfLogged'));
         // console.log("aaa");
     }
 
     $scope.$watch(function() {
-        return $cookieStore.get('kbLogged');
+        return $cookieStore.get('kfLogged');
     }, function(newValue) {
-        // $log.log('Cookie string: ' + $cookieStore.get('kbLogged'));
         // var a = newValue;
         // if(!a)
         //     console.log(a);
@@ -411,10 +400,7 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
     });
 
     $scope.logout = ()=>{
-        $cookieStore.remove('kbLogged');
-        // $log.log('Cookie string: ' + $cookieStore.get('kbLogged'));
-        // socket.emit("logoutUser");
-        // $state.go('login');
+        $cookieStore.remove('kfLogged');
 
         window.location.reload();
 
@@ -515,6 +501,52 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
 
 app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,userService)=>{
 
+    var rT = 0;
+    $scope.dis = 100;
+
+    $scope.getTotal = ()=>{
+        console.log('getting total');
+        var l = $scope.ppu.length;
+        // console.log('length is' + l);
+        var total = 0;
+        for(var i =0; i<l; i++)
+        {
+            // console.log($scope.ppu[i] +"*"+ $scope.quantity[i])
+            total = total + ($scope.ppu[i] * $scope.quantity[i]);
+        }
+        // console.log("total is" + total);
+
+        $scope.realTotal = total;
+        rT = total;
+
+        if($scope.discount){
+            console.log($scope);
+
+            // console.log($("#discountAmount").text());
+            // console.log($scope.dis);
+
+
+            // console.log(document.getElementById('discountAmount').innerHTML);
+            // total = total - parseFloat(document.getElementById('discountAmount').innerHTML.replace("RM ",""))*10;
+            // console.log("total " + total);
+
+        }
+
+        $scope.gTotal = total;
+    };
+
+    // $scope.dis = 0;
+    $scope.discount = false;
+
+    $scope.toggleDiscount = ()=>{
+        if($scope.discount){
+            $scope.discount = false;
+        }
+        else{
+            $scope.discount = true;
+        }
+    };
+
     $("#usermsg").keypress(function (e) {
         if(e.which == 13 && !e.shiftKey) {
             $scope.sendMessage2();
@@ -594,6 +626,10 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
         }
     };
 
+    $scope.aaa = (a)=>{
+        console.log(a);
+    }
+
     $scope.getInq = ()=>{
         $scope.allInq = inqService.getInq();
 
@@ -611,7 +647,9 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
             for(var i=0;i<$scope.currentInq['bearings'].length;i++ ){
                 $scope.bearing1.push($scope.currentInq['bearings'][i].serialNo);
             }
+            // console.log($scope.users);
             $scope.currentUser = $scope.users[$scope.currentInq.inquiryOwner];
+
 
         }
 
@@ -621,7 +659,6 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
         // console.log($scope.bearing1);
     };
 
-    // inqService.registerObserverCallback($scope.getInq);
 
     $scope.updateBearings = (index,serial)=>{
         $scope.bearing1[index] = serial;
@@ -633,18 +670,9 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
     $scope.bearing= [];
     $scope.gTotal = 0;
 
-    $scope.getTotal = ()=>{
-        var l = $scope.ppu.length;
-        console.log('length is' + l);
-        var total = 0;
-        for(var i =0; i<l; i++)
-        {
-            // console.log($scope.ppu[i] +"*"+ $scope.quantity[i])
-            total = total + ($scope.ppu[i] * $scope.quantity[i]);
-        }
 
-        $scope.gTotal = total;
-    };
+
+
 
     $scope.sendQuote = ()=>{
         $scope.data = [];
@@ -668,11 +696,17 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
 
         $scope.tosend = {};
         $scope.tosend.quoteBearings = $scope.data;
+
+        console.log($scope.dis);
+        // $scope.tosend.discountAmount = ;
+        $scope.tosend.discountPercent = parseFloat(document.getElementById('discountAmount').innerHTML.replace("RM ",""))*10
+
+        $scope.tosend.rTotal = rT;
         $scope.tosend.gTotal = $scope.gTotal;
 
 
-        console.log($scope.currentInq);
-        socket.emit("sendQuote",$scope.tosend,$scope.currentInq);
+        console.log($scope.tosend);
+        // socket.emit("sendQuote",$scope.tosend,$scope.currentInq);
 
 
         // var notification = document.querySelector('.mdl-js-snackbar');
@@ -690,7 +724,7 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
         var toSend = {};
         toSend.dest = $scope.chatID;
         toSend.mess = "I have sent you a Quotation";
-        socket.emit("sendMessage",toSend,$scope.currentInq.inquiryOwner);
+        // socket.emit("sendMessage",toSend,$scope.currentInq.inquiryOwner);
     };
 
 

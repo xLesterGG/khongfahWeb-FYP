@@ -6,13 +6,13 @@ var io = require('socket.io');
 var uuid = require('node-uuid');
 
 var config = {
-    apiKey: "AIzaSyAs4US9O4tjsC_DZdcgmbPT3D0Xd179od4",
-    authDomain: "kuchingbearings.firebaseapp.com",
-    databaseURL: "https://kuchingbearings.firebaseio.com",
-    projectId: "kuchingbearings",
-    storageBucket: "kuchingbearings.appspot.com",
-    messagingSenderId: "1033971329142"
-  };
+   apiKey: "AIzaSyAOGkQMDi5sLuEWRVyyItnbMPgSRFP55-s",
+   authDomain: "khongfah-350bd.firebaseapp.com",
+   databaseURL: "https://khongfah-350bd.firebaseio.com",
+   projectId: "khongfah-350bd",
+   storageBucket: "khongfah-350bd.appspot.com",
+   messagingSenderId: "34688633867"
+ };
 
 
 
@@ -120,9 +120,7 @@ socket.on("connection",(client)=>{
             for(var x in res.val()){
                  users[x] = res.val()[x];
             }
-
-            // socket.sockets.emit("updateUserList",users);
-
+            socket.sockets.emit("updateUserList",users);
             // console.log(users);
         });
 
@@ -130,6 +128,8 @@ socket.on("connection",(client)=>{
             // console.log('loaded / new inquiry');
             for(var r in res.val()){
                  inquiries[r] = res.val()[r];
+
+                //  console.log(inquiries);
             }
 
             ready = true;
@@ -795,22 +795,22 @@ socket.on("connection",(client)=>{
             // }
 
             if(inq.quotations!=undefined){
-                // console.log(Object.keys(inq.quotations[0]));
                 var c= inq.quotations;
                 c.push(b);
-                // console.log(c);
 
+                var data = inq;
+                data.quotations = c;
 
-                var data = {
-                    inquiryPeoples: inq.inquiryPeoples,
-                    inquiryName:inq.inquiryName,
-                    inquiryID:inq.inquiryID,
-                    inquiryOwner: inq.inquiryOwner,
-                    lastMessage: inq.lastMessage,
-                    bearings: inq.bearings,
-                    quotations: c,
-                    inquiryTime: inq.inquiryTime
-                }
+                // var data = {
+                //     inquiryPeoples: inq.inquiryPeoples,
+                //     inquiryName:inq.inquiryName,
+                //     inquiryID:inq.inquiryID,
+                //     inquiryOwner: inq.inquiryOwner,
+                //     lastMessage: inq.lastMessage,
+                //     bearings: inq.bearings,
+                //     quotations: c,
+                //     inquiryTime: inq.inquiryTime
+                // }
 
 
             }
@@ -818,19 +818,22 @@ socket.on("connection",(client)=>{
                 var temp = [];
                 temp.push(b);
 
-                var data = {
-                    inquiryPeoples: inq.inquiryPeoples,
-                    inquiryName:inq.inquiryName,
-                    inquiryID:inq.inquiryID,
-                    inquiryOwner: inq.inquiryOwner,
-                    lastMessage: inq.lastMessage,
-                    bearings: inq.bearings,
-                    quotations: temp,
-                    inquiryTime: inq.inquiryTime,
-                    status:inq.status
-                }
+                var data = inq;
+                data.quotations  = temp;
 
-                console.log(data);
+                // var data = {
+                //     inquiryPeoples: inq.inquiryPeoples,
+                //     inquiryName:inq.inquiryName,
+                //     inquiryID:inq.inquiryID,
+                //     inquiryOwner: inq.inquiryOwner,
+                //     lastMessage: inq.lastMessage,
+                //     bearings: inq.bearings,
+                //     quotations: temp,
+                //     inquiryTime: inq.inquiryTime,
+                //     status:inq.status
+                // }
+
+                // console.log(data);
 
             }
 

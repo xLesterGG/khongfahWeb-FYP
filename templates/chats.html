@@ -23,7 +23,7 @@
                                     </th>
 
                                     <th>
-                                        # of bearings requested
+                                        # of item requested
                                     </th>
 
                                     <th>
@@ -98,8 +98,8 @@
             </h4>
 
             <div class="card-body collapse" id="collapseExample" >
-                <h4 class="class-title">{{currentUser.name}} <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#mmmodal">Details</button></h4>
                 <h6 class="card-subtitle mb-2 text-muted">{{currentUser.email}}</h6>
+                <h4 class="class-title">{{currentUser.name}} <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#mmmodal">Details</button></h4>
 
             </div>
         </div>
@@ -240,15 +240,6 @@
                 </div>
 
 
-
-                <!-- <div class="write">
-                    <a href="javascript:;" class="write-link attach"></a>
-                    <input data-ng-click="updateRead()" type="text" data-ng-model="inputMessage"/>
-                    <a href="javascript:;" class="write-link smiley"></a>
-                    <a href="javascript:;" class="write-link send"></a>
-
-                </div> -->
-
             </form>
         </div>
 
@@ -261,20 +252,17 @@
 
 
         <div class="card" style="margin-top:15px">
-            <h4 class="card-header bg-primary text-white">Bearings Requested <span class="badge badge-light text-primary">{{currentInq1.bearings.length}}</span></h4>
+            <h4 class="card-header bg-primary text-white">Items Requested <span class="badge badge-light text-primary">{{currentInq1.bearings.length}}</span></h4>
 
             <div id="bearings">
                 <div class="card-body" style="border-top:1px solid #e6e6e6" data-ng-repeat="b in currentInq1.bearings track by $index">
                     <a href><img style="width:4.16vw;height:auto" ng-show="b.imageUrl!=''" class="image float-md-right" ng-click="view()" ng-src="{{b.imageUrl}}" alt="bearing picture"/></a>
-                    <!-- <a href><img style="width:4.16vw;height:auto" ng-show="b.imageUrl==''" class="image float-md-right" ng-src="{{b.imageUrl}}" alt="not given"/></a> -->
 
-                    <!-- <a href><img style="width:4.16vw;height:auto" class="image float-md-right" ng-click="view()" ng-src="http://www.smiley.com/sites/default/files/BRAND_SMILEY_MAIN.jpg" alt="bearing picture"/></a> -->
 
-                    <h4 class="card-title" ng-show="b.serialNo!=''">Serial No: {{b.serialNo}}</h4>
+                    <h4 class="card-title" ng-show="b.serialNo!=''">Item Name: {{b.serialNo}}</h4>
 
-<!--  -->
 
-                    <h4 class="card-title" ng-show="b.serialNo==''">Serial number not provided</h4>
+                    <h4 class="card-title" ng-show="b.serialNo==''">Item name not provided</h4>
 
                     #{{$index+1}}
 
@@ -282,13 +270,10 @@
                         <thead>
                             <tr>
                                 <th>
-                                    Height
+                                    Quantity
                                 </th>
                                 <th>
-                                    Diameter (I)
-                                </th>
-                                <th>
-                                    Diameter (O)
+                                    Description
                                 </th>
                             </tr>
                         </thead>
@@ -296,22 +281,17 @@
                         <tbody>
                             <tr>
                                 <td class="text-info">
-                                    {{b.height}} mm
+                                    {{}}
                                 </td>
 
                                 <td class="text-info">
-                                    {{b.diameterI}} mm
-                                </td>
-
-                                <td class="text-info">
-                                    {{b.diameterO}} mm
+                                    <span ng-show="b.extraComment!=''">{{b.extraComment}}</span>
+                                    <span ng-if="b.extraComment.length ==0"> None provided </span>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
 
-
-                    <p class="card-text">Extra comments: {{b.extraComment}}</p>
 
                 </div>
             </div>
@@ -343,7 +323,7 @@
                                     </th>
 
                                     <th>
-                                        Serial Number
+                                        Item name
                                     </th>
 
                                     <th>
@@ -369,15 +349,9 @@
                                     </td>
 
                                     <td>
-                                        <!-- {{s.serialNo}} -->
-                                        <!-- <input type="text" class="form-control no-border" data-ng-model="bearing[$index]" value="{{s.serialNo}}"/> -->
 
                                         <input type="text" class="form-control no-border input-sm" data-ng-init="bearing[$index]='{{s.serialNo}}'" data-ng-model="bearing[$index]" value="{{s.serialNo}}" data-ng-change="updateBearings($index,bearing[$index])"/>
 
-                                        <!-- <input type="text" class="form-control no-border input-sm" id="bearing[]" value="{{s.serialNo}}"/> -->
-
-
-                                        <!-- {{s.serialNo}} -->
                                     </td>
 
                                     <td>
@@ -399,6 +373,37 @@
                                         <img style="width:16px; height:auto;" src="http://www.freeiconspng.com/uploads/close-icon-7.png" data-ng-click="removeRow($index);"/>
 
                                     </td>
+                                </tr>
+
+                                <tr ng-show="discount == true">
+                                    <td>
+                                         &nbsp;
+                                    </td>
+
+                                    <td>
+
+                                        Discount (%)
+                                    </td>
+
+                                    <td>
+                                        <input type="number" data-ng-init="dis=0" data-ng-model="dis" class="form-control no-border" placeholder="%" data-ng-change="getTotal()"/>
+                                        <!-- <input type="text" data-ng-bind="dis"/> -->
+
+                                        <!-- <button ng-click="aaa()">asdsad</button> -->
+                                    </td>
+
+                                    <td>
+                                         &nbsp;{{dis}}
+                                    </td>
+
+                                    <td>
+                                        <!-- <input type="text" data-ng-model="discountAmount" class="form-control no-border" size="1" readonly/> -->
+
+                                        <span id="discountAmount" class="text-danger">
+                                            {{realTotal * dis/100|currency:"RM "}}
+                                        </span>
+                                    </td>
+
                                 </tr>
 
                                 <tr>
@@ -426,8 +431,12 @@
                             </table>
 
                             <div class="row" >
-                                <div class="col-md-10">
+                                <div class="col-md-2">
                                     <button type="button" class="btn btn-md" data-ng-click="addRow()">Add Row</button>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <button type="button" class="btn btn-md" data-ng-click="toggleDiscount()">Add Discount</button>
                                 </div>
 
                                 <div class="col-md-2" >
@@ -570,16 +579,6 @@
             </div>
         </div>
 
-
-
-
-
     </div>
 
-
 </div>
-
-<!-- <div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
-    <div class="mdl-snackbar__text"></div>
-    <button type="button" class="mdl-snackbar__action"></button>
-</div> -->
