@@ -98,8 +98,25 @@
             </h4>
 
             <div class="card-body collapse" id="collapseExample" >
+                <h4 class="class-title">{{currentUser.name}}</h4>
                 <h6 class="card-subtitle mb-2 text-muted">{{currentUser.email}}</h6>
-                <h4 class="class-title">{{currentUser.name}} <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#mmmodal">Details</button></h4>
+
+                <span class="card-text">Contact: {{currentUser.contact}}</span>
+                <br />
+
+                <span class="card-text">
+                     Address: {{currentUser.address}}
+                </span>
+                <br />
+
+                <span class="card-text">
+                    Organization: {{currentUser.comname}}
+                </span>
+
+
+
+
+                <!-- <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#mmmodal">Details</button></h4> -->
 
             </div>
         </div>
@@ -300,12 +317,20 @@
 
         <!-- Quotation -->
 
+
+
         <div class="quotation" data-ng-repeat="inq in allInq|customFilter:chatID track by $index">
+
+
+            <!-- <input type="text" data-ng-init="dis=0" data-ng-model="dis[$index]" class="form-control no-border" placeholder="%" data-ng-change="getTotal()"/> -->
+
 
             <button style="" type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal{{$index}}" > Send Quotation </button>
 
 
             <div id="myModal{{$index}}" class="modal fade" role="dialog">
+
+
 
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -385,22 +410,18 @@
                                         Discount (%)
                                     </td>
 
-                                    <td>
-                                        <input type="number" data-ng-init="dis=0" data-ng-model="dis" class="form-control no-border" placeholder="%" data-ng-change="getTotal()"/>
-                                        <!-- <input type="text" data-ng-bind="dis"/> -->
-
-                                        <!-- <button ng-click="aaa()">asdsad</button> -->
+                                    <td colspan="2">
+                                        <input type="text" data-ng-init="$parent.dis=0" ng-model="$parent.dis" class="form-control no-border" placeholder="%" data-ng-change="getTotal()"/>
                                     </td>
 
-                                    <td>
-                                         &nbsp;{{dis}}
-                                    </td>
+
 
                                     <td>
                                         <!-- <input type="text" data-ng-model="discountAmount" class="form-control no-border" size="1" readonly/> -->
+                                        <!-- <input type="text" ng-model="$parent.discountAmount" class="form-control no-border" readonly style="background-color:#ffffff"/> -->
 
-                                        <span id="discountAmount" class="text-danger">
-                                            {{realTotal * dis/100|currency:"RM "}}
+                                        <span id="discountAmount" ng-model="$parent.discountAmount" class="text-danger">
+                                            {{realTotal * $parent.dis/100|currency:"RM "}}
                                         </span>
                                     </td>
 
@@ -479,7 +500,6 @@
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header bg-primary">
-                                        <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
                                         <h4 class="modal-title text-white">Quotation</h4>
                                     </div>
 

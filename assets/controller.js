@@ -185,7 +185,6 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
     }
 
 
-
     var config = {
         apiKey: "AIzaSyAs4US9O4tjsC_DZdcgmbPT3D0Xd179od4",
         authDomain: "kuchingbearings.firebaseapp.com",
@@ -502,48 +501,24 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
 app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,userService)=>{
 
     var rT = 0;
-    $scope.dis = 100;
-
-    $scope.getTotal = ()=>{
-        console.log('getting total');
-        var l = $scope.ppu.length;
-        // console.log('length is' + l);
-        var total = 0;
-        for(var i =0; i<l; i++)
-        {
-            // console.log($scope.ppu[i] +"*"+ $scope.quantity[i])
-            total = total + ($scope.ppu[i] * $scope.quantity[i]);
-        }
-        // console.log("total is" + total);
-
-        $scope.realTotal = total;
-        rT = total;
-
-        if($scope.discount){
-            console.log($scope);
-
-            // console.log($("#discountAmount").text());
-            // console.log($scope.dis);
-
-
-            // console.log(document.getElementById('discountAmount').innerHTML);
-            // total = total - parseFloat(document.getElementById('discountAmount').innerHTML.replace("RM ",""))*10;
-            // console.log("total " + total);
-
-        }
-
-        $scope.gTotal = total;
-    };
-
-    // $scope.dis = 0;
     $scope.discount = false;
+    // $scope.dis = 100;
+
+    // $scope.abc = $scope.realTotal * $scope.dis/100;
+
 
     $scope.toggleDiscount = ()=>{
         if($scope.discount){
+            $scope.dis=0;
             $scope.discount = false;
+            $scope.getTotal();
+
         }
         else{
+            $scope.dis=0;
             $scope.discount = true;
+            $scope.getTotal();
+
         }
     };
 
@@ -670,8 +645,35 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
     $scope.bearing= [];
     $scope.gTotal = 0;
 
+    $scope.getTotal = ()=>{
+
+        var l = $scope.ppu.length;
+
+        var total = 0;
+        for(var i =0; i<l; i++)
+        {
+            total = total + ($scope.ppu[i] * $scope.quantity[i]);
+        }
+        // console.log("total is" + total);
+
+        $scope.realTotal = total;
+        rT = total;
+
+        if($scope.discount && $scope.realTotal != 0){
+
+            // $scope.$apply();
+            // console.log("total " + total);
+
+            console.log($scope.dis);
+            console.log($scope.realTotal* $scope.dis/100 );
 
 
+            total = total - ($scope.realTotal* $scope.dis/100) ;
+
+        }
+
+        $scope.gTotal = total;
+    };
 
 
     $scope.sendQuote = ()=>{
@@ -697,16 +699,15 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
         $scope.tosend = {};
         $scope.tosend.quoteBearings = $scope.data;
 
-        console.log($scope.dis);
-        // $scope.tosend.discountAmount = ;
-        $scope.tosend.discountPercent = parseFloat(document.getElementById('discountAmount').innerHTML.replace("RM ",""))*10
+        $scope.tosend.discountAmount = $scope.realTotal* $scope.dis/100;
+        $scope.tosend.discountPercent = $scope.dis;
 
         $scope.tosend.rTotal = rT;
         $scope.tosend.gTotal = $scope.gTotal;
 
 
-        console.log($scope.tosend);
-        // socket.emit("sendQuote",$scope.tosend,$scope.currentInq);
+        // console.log($scope.tosend);
+        socket.emit("sendQuote",$scope.tosend,$scope.currentInq);
 
 
         // var notification = document.querySelector('.mdl-js-snackbar');
