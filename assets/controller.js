@@ -180,18 +180,18 @@ app.controller("historyCtrl",($scope,inqService,userService)=>{
 });
 
 app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqService,userService,$cookieStore)=>{
+
     window.onfocus = ()=>{
         $scope.$apply();
     }
 
-
     var config = {
-        apiKey: "AIzaSyAs4US9O4tjsC_DZdcgmbPT3D0Xd179od4",
-        authDomain: "kuchingbearings.firebaseapp.com",
-        databaseURL: "https://kuchingbearings.firebaseio.com",
-        projectId: "kuchingbearings",
-        storageBucket: "kuchingbearings.appspot.com",
-        messagingSenderId: "1033971329142"
+        apiKey: "AIzaSyAOGkQMDi5sLuEWRVyyItnbMPgSRFP55-s",
+        authDomain: "khongfah-350bd.firebaseapp.com",
+        databaseURL: "https://khongfah-350bd.firebaseio.com",
+        projectId: "khongfah-350bd",
+        storageBucket: "khongfah-350bd.appspot.com",
+        messagingSenderId: "34688633867"
     };
 
 
@@ -199,78 +199,50 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
     var defaultStorage  = fbApp.storage().ref();
 
 
-
-
     $scope.file_changed = function(element) {
         $scope.$apply(function(scope) {
+            var imgRef = defaultStorage.child('photos'+ '/'+$stateParams.id+'/'+element.files[0].name);
 
-        var imgRef = defaultStorage.child('photos'+ '/'+$stateParams.id+'/'+element.files[0].name);
+            // mountainImagesRef.put(element.files[0]).then((snapshot)=>{
+            // console.log('uploaded');
+            // })
 
-        // mountainImagesRef.put(element.files[0]).then((snapshot)=>{
-        // console.log('uploaded');
-        // })
+            var fileReader = new FileReader();
+            fileReader.onload = ()=>{
+                $scope.loadedFile = fileReader.result;
+                   $scope.$apply();
+            };
 
-        var fileReader = new FileReader();
-        fileReader.onload = ()=>{
-            $scope.loadedFile = fileReader.result;
-               $scope.$apply();
-        };
-
-        fileReader.readAsDataURL(element.files[0]);
-
-
-        $('#imgModal').modal('show');
-
-        var files = element.files; //FileList object
+            fileReader.readAsDataURL(element.files[0]);
 
 
-        $scope.upload = ()=>{
-            $('#imgModal').modal('hide');
+            $('#imgModal').modal('show');
 
-            var uploadTask = imgRef.put(element.files[0]);
-            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,function(snapshot) {
-
-                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                $scope.progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                // console.log('Upload is ' + progress + '% done');
-            }, function(error) {
-
-                alert("error uploading, please try again")
-            }, function() {
-                // Upload completed successfully, now we can get the download URL
-                var downloadURL = uploadTask.snapshot.downloadURL;
-                console.log(downloadURL);
-
-                socket.emit("sendImage", downloadURL,$stateParams.id);
+            var files = element.files; //FileList object
 
 
+            $scope.upload = ()=>{
+                $('#imgModal').modal('hide');
 
+                var uploadTask = imgRef.put(element.files[0]);
+                uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,function(snapshot) {
 
-                // $scope.sendMessage2 = ()=>{
-                //     if($scope.inputMessage!=''){
-                //         var toSend = {};
-                //         console.log($scope.inputMessage);
-                //         toSend.dest = $scope.chatID;
-                //         toSend.mess = $scope.inputMessage;
-                //         socket.emit("sendMessage",toSend,$scope.currentInq.inquiryOwner);
-                //         $scope.inputMessage = '';
-                //     }
-                // };
-            });
-        }
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                    $scope.progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    // console.log('Upload is ' + progress + '% done');
+                }, function(error) {
 
+                    alert("error uploading, please try again")
+                }, function() {
+                    // Upload completed successfully, now we can get the download URL
+                    var downloadURL = uploadTask.snapshot.downloadURL;
+                    console.log(downloadURL);
 
+                    socket.emit("sendImage", downloadURL,$stateParams.id);
 
+                });
+            }
 
-        //    var uploadTask = defaultStorage.child('images/rivers.jpg').put(element.files[0]);
-
-
-        //  var photofile = element.files[0];
-        //  var reader = new FileReader();
-        //  reader.onload = function(e) {
-        //     // handle onload
-        //  };
-        //  reader.readAsDataURL(photofile);
         });
     };
 
@@ -313,7 +285,7 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
         }
     }
 
-    $scope.getInbox = (inq)=>{
+    $scope.getInbox = (inq)=>{ // filtering
         if(inq.status=="trash")
         {
             return false;
@@ -322,7 +294,7 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
         return true;
     }
 
-    $scope.getTrash = (inq)=>{
+    $scope.getTrash = (inq)=>{ // filtering
         if(inq.status=="trash")
         {
             return true;
@@ -358,26 +330,14 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
 
     $scope.abc= function logshit(){
         console.log($cookieStore.get('kfLogged'));
-        // console.log("aaa");
     }
 
     $scope.$watch(function() {
         return $cookieStore.get('kfLogged');
     }, function(newValue) {
-        // var a = newValue;
-        // if(!a)
-        //     console.log(a);
         if(!newValue){
             window.location.href = "http://localhost:3000/#!/login";
-        }
-        // console.log('aaa');
-        // console.log(newValue);
-        // if(!newValue)
-        // {
-        //     window.location.href = "http://localhost/#!/login";
-        //     // window.location.reload();
-        // }
-
+        }   
     });
 
 
@@ -472,9 +432,6 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
     });
 
     socket.on("updateUserList",(userList)=>{
-        // $scope.allInquiryList = inquiryList;
-        // console.log(userList);
-
         userService.addUsers(userList);
         $scope.$apply();
 
@@ -491,7 +448,7 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
 
     $scope.updateRead = (inq)=>{
         // console.log(inq);
-        console.log('with inq');
+        // console.log('with inq');
         socket.emit("updateLastRead",inq);
     };
 
@@ -502,10 +459,6 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
 
     var rT = 0;
     $scope.discount = false;
-    // $scope.dis = 100;
-
-    // $scope.abc = $scope.realTotal * $scope.dis/100;
-
 
     $scope.toggleDiscount = ()=>{
         if($scope.discount){
@@ -567,15 +520,13 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
     $scope.$watch(function() {
         return inqService.getInq();
     }, function(newContacts) {
-        // Do something with newContacts.
-        // console.log('aaaa');
+
         $scope.getInq();
     });
 
     $scope.currentInq = {};
-    $scope.bearing1= [];
+    $scope.item1= [];
     $scope.allInq = {};
-    // $scope.currentInq1 = {};
 
 
     $scope.addRow = ()=>{
@@ -583,7 +534,7 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
 
         console.log($scope.currentInq);
         console.log($scope.currentInq1);
-        $scope.bearing1.push('');
+        $scope.item1.push('');
     };
 
     $scope.removeRow= (index)=>{
@@ -619,24 +570,22 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
 
         if($scope.currentInq!=undefined)
         {
-            for(var i=0;i<$scope.currentInq['bearings'].length;i++ ){
-                $scope.bearing1.push($scope.currentInq['bearings'][i].serialNo);
+            for(var i=0;i<$scope.currentInq['items'].length;i++ ){
+                $scope.item1.push($scope.currentInq['items'][i].serialNo);
             }
             // console.log($scope.users);
             $scope.currentUser = $scope.users[$scope.currentInq.inquiryOwner];
-
-
+            // console.log($scope.currentUser);
         }
 
 
 
 
-        // console.log($scope.bearing1);
     };
 
 
     $scope.updateBearings = (index,serial)=>{
-        $scope.bearing1[index] = serial;
+        $scope.item1[index] = serial;
     };
 
     $scope.ppu = [];
@@ -681,7 +630,7 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
         // console.log($scope.ppu);
 
         for(var i = 0; i < $scope.ppu.length;i++){
-            var serial = $scope.bearing1[i];
+            var serial = $scope.item1[i];
             var q = $scope.quantity[i];
             var ppu = $scope.ppu[i];
             var t = $scope.total[i];
@@ -706,26 +655,12 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
         $scope.tosend.gTotal = $scope.gTotal;
 
 
-        // console.log($scope.tosend);
         socket.emit("sendQuote",$scope.tosend,$scope.currentInq);
-
-
-        // var notification = document.querySelector('.mdl-js-snackbar');
-        //     notification.MaterialSnackbar.showSnackbar(
-        //     {
-        //     message: 'Quotation sent!',
-        //     timeout: 5000,
-        //     actionHandler: function(event) {
-        //         notification.MaterialSnackbar.cleanup_();
-        //     },
-        //     actionText: 'Close',
-        //     }
-        // );
 
         var toSend = {};
         toSend.dest = $scope.chatID;
         toSend.mess = "I have sent you a Quotation";
-        // socket.emit("sendMessage",toSend,$scope.currentInq.inquiryOwner);
+        socket.emit("sendMessage",toSend,$scope.currentInq.inquiryOwner);
     };
 
 

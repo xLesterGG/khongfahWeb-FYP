@@ -23,7 +23,7 @@
                                     </th>
 
                                     <th>
-                                        # of item requested
+                                        # of item requesteds
                                     </th>
 
                                     <th>
@@ -43,7 +43,7 @@
                                     </td>
 
                                     <td>
-                                        {{y.bearings.length}}
+                                        {{y.items.length}}
                                     </td>
 
                                     <td>
@@ -90,69 +90,77 @@
 
                   </div>
                 </div>
-
-                <!-- <a href class="text-white" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">See more</a> -->
-                <!-- <button class="btn btn-light btn-sm text-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                    See more
-                </button> -->
             </h4>
 
             <div class="card-body collapse" id="collapseExample" >
-                <h4 class="class-title">{{currentUser.name}}</h4>
-                <h6 class="card-subtitle mb-2 text-muted">{{currentUser.email}}</h6>
 
-                <span class="card-text">Contact: {{currentUser.contact}}</span>
-                <br />
+                <div class="row">
+                    <div class="col-md-6" >
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h5>Name:</h5>
+                            </div>
 
-                <span class="card-text">
-                     Address: {{currentUser.address}}
-                </span>
-                <br />
+                            <div class="col-md-8">
+                                <h5><a href data-toggle="modal" data-target="#mmmodal">{{currentUser.name}}</a></h5>
+                            </div>
 
-                <span class="card-text">
-                    Organization: {{currentUser.comname}}
-                </span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h5>Email:</h5>
+                            </div>
+
+                            <div class="col-md-8">
+                                <h5><a href="mailto:{{currentUser.email}}">{{currentUser.email}}</a></h5>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h5>Address:</h5>
+                            </div>
+
+                            <div class="col-md-8">
+                                <h5>
+                                    <a href="https://www.google.com/maps?q={{currentUser.address}}" target="_blank"> {{currentUser.address}} </a>
+                                </h5>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6" >
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h5>Contact:</h5>
+                            </div>
+
+                            <div class="col-md-8">
+                                <h5>{{currentUser.contact}}</h5>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h5>Organization:</h5>
+                            </div>
+
+                            <div class="col-md-8">
+                                <h5><a href="https://www.google.com/search?q={{currentUser.comname}}" target="_blank">{{currentUser.comname}}</a></h5>
+                            </div>
+                        </div>
+
+                    </div>
 
 
-
-
+                </div>   
                 <!-- <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#mmmodal">Details</button></h4> -->
 
             </div>
         </div>
-
-        <!-- <div style="background-color:#F5F5F5">
-            <md-toolbar md-scroll-shrink="">
-                <div class="md-toolbar-tools">
-                    <h3>
-                        <span>Inquiry title:  {{currentInq.inquiryName}}</span>
-                    </h3>
-                </div>
-            </md-toolbar>
-
-            <md-card  md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch>
-                <md-card-title>
-                    <md-card-title-text>
-                        <span class="md-headline">
-                            {{currentUser.name}}
-                            <md-button class="md-raised md-primary" data-toggle="modal" data-target="#mmmodal">Details</md-button>
-                        </span>
-
-                        <span class="md-subhead">
-                            <p>
-                                {{currentUser.email}} <br>
-                            </p>
-                        </span>
-                    </md-card-title-text>
-
-                    <md-card-title-media>
-                        <div class="md-media-sm card-media">
-                            <img class="image" ng-click="view()" ng-src="http://img.clipartall.com/user-image-user-clipart-276_298.png" alt="user picture"/>
-                        </div>
-                    </md-card-title-media>
-                </md-card-title>
-            </md-card>
-        </div> -->
 
         <div id="convo" data-ng-model="convo" class="row">
 
@@ -269,21 +277,40 @@
 
 
         <div class="card" style="margin-top:15px">
-            <h4 class="card-header bg-primary text-white">Items Requested <span class="badge badge-light text-primary">{{currentInq1.bearings.length}}</span></h4>
+            <h4 class="card-header bg-primary text-white">Items Requested <span class="badge badge-light text-primary">{{currentInq1.items.length}}</span></h4>
 
             <div id="bearings">
-                <div class="card-body" style="border-top:1px solid #e6e6e6" data-ng-repeat="b in currentInq1.bearings track by $index">
-                    <a href><img style="width:4.16vw;height:auto" ng-show="b.imageUrl!=''" class="image float-md-right" ng-click="view()" ng-src="{{b.imageUrl}}" alt="bearing picture"/></a>
+                <div class="card-body" style="border-bottom:1px solid #e6e6e6" data-ng-repeat="b in currentInq1.items track by $index">
+                    <a href><img style="width:4.16vw;height:auto" ng-show="b.imageUrl!=''" class="image float-md-right" ng-click="view()" ng-src="{{b.imageUrl}}" alt="item picture"/></a>
 
-
-                    <h4 class="card-title" ng-show="b.serialNo!=''">Item Name: {{b.serialNo}}</h4>
-
+                    <h4 class="card-title" ng-show="b.serialNo!=''">Requested Quantity: {{b.quantity}}</h4>
+                    #{{$index+1}}
 
                     <h4 class="card-title" ng-show="b.serialNo==''">Item name not provided</h4>
 
-                    #{{$index+1}}
+                    <table>
+                        <tr>
+                            <td>
+                                <b>Description: </b>
+                            </td>
+                            <td style="padding-left:10px">
+                                {{b.extraComment}} aaaaa  aaaa  aa aaaa aaaa aaaa
+                            </td>
 
-                    <table class="table">
+                        </tr>
+                    </table>
+
+                    <!-- <div class="row" style="margin-top:100px">
+                        <div class="col-md">
+                            <b>Description: </b>
+                        </div>
+
+                        <div class="col-md-8">
+                            {{b.extraComment}} aaaaaaaaaaaaaaaaa aaaaaaaaaa aaaaaaaaaaaaaa aaaaaaaaaaaaaa aaaaaaaaaaaaaaa
+                        </div>
+                    </div> -->
+
+                    <!-- <table class="table">
                         <thead>
                             <tr>
                                 <th>
@@ -298,7 +325,7 @@
                         <tbody>
                             <tr>
                                 <td class="text-info">
-                                    {{}}
+                                    {{b.quantity}}
                                 </td>
 
                                 <td class="text-info">
@@ -307,7 +334,7 @@
                                 </td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table> -->
 
 
                 </div>
@@ -320,9 +347,6 @@
 
 
         <div class="quotation" data-ng-repeat="inq in allInq|customFilter:chatID track by $index">
-
-
-            <!-- <input type="text" data-ng-init="dis=0" data-ng-model="dis[$index]" class="form-control no-border" placeholder="%" data-ng-change="getTotal()"/> -->
 
 
             <button style="" type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal{{$index}}" > Send Quotation </button>
@@ -489,8 +513,9 @@
                             <img ng-if="q.payment != undefined" src="https://cdn.dribbble.com/users/9866/screenshots/672155/paid_stamp.png" style="width:80px;height:auto;margin-right:10px" class="float-md-left" alt="quote logo"/>
 
                             <h5>Quotation #{{$index+1}}</h5>
-                            <h6>Grand total: {{ q.gTotal|currency:'RM' }}</h6>
+                            <h6>Grand total: {{ q.gTotal|currency:'RM' }}<span ng-show="q.discountPercent>0"> (Discount {{q.discountPercent}}%)</span></h6>
                             <p class="">Grand Total: {{q.quoteBearings.length}}</p>
+
 
                         </div>
 
@@ -555,11 +580,34 @@
                                                     <td>
                                                         {{s.total | currency:"RM"}}
                                                     </td>
+                                                </tr>
 
+                                                <tr ng-show="q.discountPercent>0">
+                                                    <td>
+                                                         &nbsp;
+                                                    </td>
+
+                                                    <td>
+
+                                                        Discount (%)
+                                                    </td>
+
+                                                    <td colspan="2">
+                                                        {{q.discountPercent}}%
+                                                    </td>
+
+
+
+                                                    <td>
+
+                                                        <span id="discountAmount" ng-model="$parent.discountAmount" class="text-danger">
+                                                            {{q.discountAmount|currency:"RM"}}
+                                                        </span>
+                                                    </td>
 
                                                 </tr>
 
-                                                <tr >
+                                                <tr>
                                                     <td colspan="2">
                                                         Grand Total
                                                     </td>
@@ -571,7 +619,7 @@
 
                                                     </td>
 
-                                                    <td class="table-primary">
+                                                    <td>
                                                         {{q.gTotal|currency:"RM"}}
                                                     </td>
 
