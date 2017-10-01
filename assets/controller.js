@@ -337,7 +337,7 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
     }, function(newValue) {
         if(!newValue){
             window.location.href = "http://localhost:3000/#!/login";
-        }   
+        }
     });
 
 
@@ -646,7 +646,7 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
         }
 
         $scope.tosend = {};
-        $scope.tosend.quoteBearings = $scope.data;
+        $scope.tosend.quoteItems = $scope.data;
 
         $scope.tosend.discountAmount = $scope.realTotal* $scope.dis/100;
         $scope.tosend.discountPercent = $scope.dis;

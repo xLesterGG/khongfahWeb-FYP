@@ -156,7 +156,7 @@
                     </div>
 
 
-                </div>   
+                </div>
                 <!-- <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#mmmodal">Details</button></h4> -->
 
             </div>
@@ -294,48 +294,11 @@
                                 <b>Description: </b>
                             </td>
                             <td style="padding-left:10px">
-                                {{b.extraComment}} aaaaa  aaaa  aa aaaa aaaa aaaa
+                                {{b.extraComment}}
                             </td>
 
                         </tr>
                     </table>
-
-                    <!-- <div class="row" style="margin-top:100px">
-                        <div class="col-md">
-                            <b>Description: </b>
-                        </div>
-
-                        <div class="col-md-8">
-                            {{b.extraComment}} aaaaaaaaaaaaaaaaa aaaaaaaaaa aaaaaaaaaaaaaa aaaaaaaaaaaaaa aaaaaaaaaaaaaaa
-                        </div>
-                    </div> -->
-
-                    <!-- <table class="table">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Quantity
-                                </th>
-                                <th>
-                                    Description
-                                </th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr>
-                                <td class="text-info">
-                                    {{b.quantity}}
-                                </td>
-
-                                <td class="text-info">
-                                    <span ng-show="b.extraComment!=''">{{b.extraComment}}</span>
-                                    <span ng-if="b.extraComment.length ==0"> None provided </span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table> -->
-
 
                 </div>
             </div>
@@ -345,16 +308,10 @@
         <!-- Quotation -->
 
 
-
         <div class="quotation" data-ng-repeat="inq in allInq|customFilter:chatID track by $index">
-
-
             <button style="" type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal{{$index}}" > Send Quotation </button>
 
-
             <div id="myModal{{$index}}" class="modal fade" role="dialog">
-
-
 
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -392,14 +349,14 @@
                                     </th>
                                 </tr>
 
-                                <tr ng-repeat="s in currentInq.bearings track by $index">
+                                <tr ng-repeat="s in currentInq.items track by $index">
                                     <td>
                                         {{$index+1}}
                                     </td>
 
                                     <td>
 
-                                        <input type="text" class="form-control no-border input-sm" data-ng-init="bearing[$index]='{{s.serialNo}}'" data-ng-model="bearing[$index]" value="{{s.serialNo}}" data-ng-change="updateBearings($index,bearing[$index])"/>
+                                        <input type="text" class="form-control no-border input-sm" data-ng-model="bearing[$index]" data-ng-change="updateBearings($index,bearing[$index])"/>
 
                                     </td>
 
@@ -441,8 +398,6 @@
 
 
                                     <td>
-                                        <!-- <input type="text" data-ng-model="discountAmount" class="form-control no-border" size="1" readonly/> -->
-                                        <!-- <input type="text" ng-model="$parent.discountAmount" class="form-control no-border" readonly style="background-color:#ffffff"/> -->
 
                                         <span id="discountAmount" ng-model="$parent.discountAmount" class="text-danger">
                                             {{realTotal * $parent.dis/100|currency:"RM "}}
@@ -481,7 +436,7 @@
                                 </div>
 
                                 <div class="col-md-8">
-                                    <button type="button" class="btn btn-md" data-ng-click="toggleDiscount()">Add Discount</button>
+                                    <button type="button" class="btn btn-md" data-ng-click="toggleDiscount()">Add/remove Discount</button>
                                 </div>
 
                                 <div class="col-md-2" >
@@ -514,7 +469,7 @@
 
                             <h5>Quotation #{{$index+1}}</h5>
                             <h6>Grand total: {{ q.gTotal|currency:'RM' }}<span ng-show="q.discountPercent>0"> (Discount {{q.discountPercent}}%)</span></h6>
-                            <p class="">Grand Total: {{q.quoteBearings.length}}</p>
+                            <p class="">Grand Total: {{q.quoteItems.length}}</p>
 
 
                         </div>
@@ -560,7 +515,7 @@
                                             </thead>
 
                                             <tbody>
-                                                <tr ng-repeat="s in q.quoteBearings track by $index">
+                                                <tr ng-repeat="s in q.quoteItems track by $index">
                                                     <td scope="row">
                                                         {{$index+1}}
                                                     </td>

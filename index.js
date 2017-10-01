@@ -379,14 +379,6 @@ socket.on("connection",(client)=>{
                         link:''
                     });
 
-                    // messageText: "Image",
-                    // messageTime : parseInt(new Date().getTime()),
-                    // messageUser : sender,
-                    // messageRead: false,
-                    // messageID:uid,
-                    // inquiryOwner:inq.inquiryOwner,
-                    // link: link
-
 
                     database.ref('/adconversations/'+inqOwner+'/'+inq.inquiryID+'?'+inq.inquiryName+'/'+a.key).set({
                         messageText: msg.msg,
@@ -454,7 +446,7 @@ socket.on("connection",(client)=>{
                             inquiryOwner: inq.inquiryOwner,
                             lastMessage: msg1,
                             msgUnreadCountForMobile: unread,
-                            bearings : inq.bearings,
+                            items : inq.items,
                             quotations:inq.quotations,
                             inquiryTime: inq.inquiryTime
                         }
@@ -484,7 +476,7 @@ socket.on("connection",(client)=>{
                             inquiryOwner: inq.inquiryOwner,
                             lastMessage: msg,
                             msgUnreadCountForMobile: unread,
-                            bearings : inq.bearings,
+                            items : inq.items,
                             inquiryTime: inq.inquiryTime,
                             status: inq.status
                         }
@@ -496,7 +488,7 @@ socket.on("connection",(client)=>{
                             inquiryOwner: inq.inquiryOwner,
                             lastMessage: msg1,
                             msgUnreadCountForMobile: unread,
-                            bearings : inq.bearings,
+                            items : inq.items,
                             inquiryTime: inq.inquiryTime
                         }
 
@@ -531,7 +523,7 @@ socket.on("connection",(client)=>{
                 inquiryID:inq.inquiryID,
                 inquiryOwner: inq.inquiryOwner,
                 lastMessage: inq.lastMessage,
-                bearings:inq.bearings,
+                items:inq.items,
                 quotations:inq.quotations,
                 inquiryTime: inq.inquiryTime,
                 status: "trash"
@@ -546,7 +538,7 @@ socket.on("connection",(client)=>{
                 inquiryID:inq.inquiryID,
                 inquiryOwner: inq.inquiryOwner,
                 lastMessage: inq.lastMessage,
-                bearings:inq.bearings,
+                items:inq.items,
                 inquiryTime: inq.inquiryTime,
                 status:"trash"
 
@@ -566,7 +558,7 @@ socket.on("connection",(client)=>{
                 inquiryID:inq.inquiryID,
                 inquiryOwner: inq.inquiryOwner,
                 lastMessage: inq.lastMessage,
-                bearings:inq.bearings,
+                items:inq.items,
                 quotations:inq.quotations,
                 inquiryTime: inq.inquiryTime,
                 status: "none"
@@ -581,7 +573,7 @@ socket.on("connection",(client)=>{
                 inquiryID:inq.inquiryID,
                 inquiryOwner: inq.inquiryOwner,
                 lastMessage: inq.lastMessage,
-                bearings:inq.bearings,
+                items:inq.items,
                 inquiryTime: inq.inquiryTime,
                 status:"none"
 
@@ -862,7 +854,7 @@ socket.on("connection",(client)=>{
                     inquiryName:inq.inquiryName,
                     inquiryID:inq.inquiryID,
                     inquiryOwner: inq.inquiryOwner,
-                    bearings: inq.bearings,
+                    items: inq.items,
                     quotations: c,
                     inquiryTime: inq.inquiryTime,
                     status:inq.status
@@ -878,7 +870,7 @@ socket.on("connection",(client)=>{
                     inquiryName:inq.inquiryName,
                     inquiryID:inq.inquiryID,
                     inquiryOwner: inq.inquiryOwner,
-                    bearings: inq.bearings,
+                    items: inq.items,
                     quotations: temp,
                     inquiryTime: inq.inquiryTime,
                     status:inq.status
