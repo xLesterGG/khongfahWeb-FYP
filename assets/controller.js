@@ -55,13 +55,12 @@ app.controller("loginCtrl",($scope,$state,$cookieStore)=>{
 
     socket.on("errorMsg",(err)=>{
         alert(err);
+        location.reload();
     });
 
 
-
-
     $scope.login = (email,pass)=>{
-        console.log(email + pass);
+        // console.log(email + pass);
         socket.emit("loginUser",email,pass);
     };
 

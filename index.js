@@ -708,22 +708,6 @@ socket.on("connection",(client)=>{
             // window.location = 'home.html'; //After successful login, user will be redirected to home.html
                 currentUser = user
 
-
-
-
-                // var y = database.ref('/users').once('value').then((res)=>{
-                //     for(var x in res.val()){
-                //          if(res.val()[x].email == email){
-                //              if('type' in res.val()[x] && res.val()[x].type == 'admin')
-                //              client.emit("redirectToInbox",user);
-                //          }
-                //     }
-                //
-                // });
-
-
-                // var us = {};
-
                 var z = database.ref('/users').once('value')
                 .then((res)=>{
                     var b = false;
