@@ -106,7 +106,7 @@ app.controller("historyCtrl",($scope,inqService,userService)=>{
     // };
 
     $scope.reload =()=>{
-        console.log('reloadings');
+        // console.log('reloadings');
         location.reload();
     }
 
@@ -138,7 +138,7 @@ app.controller("historyCtrl",($scope,inqService,userService)=>{
     $scope.getInq = ()=>{
         $scope.allInq = inqService.getInq();
 
-        $scope.payments = [];
+        $scope.orders = [];
 
         if(Object.keys($scope.allInq).length>0){
             // console.log($scope.allInq['-Kjs3Aj_BfMqilAUcgpc'].inquiryID);
@@ -151,21 +151,28 @@ app.controller("historyCtrl",($scope,inqService,userService)=>{
                 if($scope.allInq[k].quotations != undefined && $scope.users[$scope.allInq[k].inquiryOwner]!=undefined){
                     // console.log("very true");
                     for(var i =0; i< $scope.allInq[k].quotations.length; i++){
-                        if($scope.allInq[k].quotations[i].payment!=undefined)
+                        if($scope.allInq[k].quotations[i].confirmation!=undefined)
                         {
 
-                            $scope.toAdd = $scope.allInq[k].quotations[i].payment;
-                            $scope.toAdd.time = $scope.allInq[k].quotations[i].payment.paymentDate;
+                            $scope.toAdd = $scope.allInq[k].quotations[i].confirmation;
+                            $scope.toAdd.time = $scope.allInq[k].quotations[i].confirmation.time;
 
                             // console.log(new Date($scope.allInq[k].quotations[i].payment.paymentDate));
                             $scope.toAdd.inquiryID = $scope.allInq[k].inquiryID;
                             $scope.toAdd.inquiryName = $scope.allInq[k].inquiryName;
-                            $scope.toAdd.customer = $scope.users[$scope.allInq[k].inquiryOwner].name;
-                            $scope.toAdd.customerID = $scope.allInq[k].inquiryOwner;
                             $scope.toAdd.quote = $scope.allInq[k].quotations[i];
                             $scope.toAdd.quoteNumber = i + 1;
+                            $scope.toAdd.customerID = $scope.allInq[k].inquiryOwner;
 
-                            $scope.payments.push($scope.toAdd);
+                            $scope.toAdd.customer = $scope.users[$scope.allInq[k].inquiryOwner].name;
+                            $scope.toAdd.address = $scope.users[$scope.allInq[k].inquiryOwner].address;
+                            $scope.toAdd.contact = $scope.users[$scope.allInq[k].inquiryOwner].contact
+                            $scope.toAdd.email = $scope.users[$scope.allInq[k].inquiryOwner].email
+                            $scope.toAdd.comname = $scope.users[$scope.allInq[k].inquiryOwner].comname
+
+
+
+                            $scope.orders.push($scope.toAdd);
                         }
                     }
                 }

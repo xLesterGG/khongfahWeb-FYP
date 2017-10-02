@@ -17,9 +17,9 @@
 
                             </th>
 
-                            <th>
+                            <!-- <th>
                                 Transaction ID
-                            </th>
+                            </th> -->
 
                             <th data-ng-click="orderByField='customer'; reverseSort = !reverseSort">
                                 Customer
@@ -29,8 +29,8 @@
                                 </span>
                             </th>
 
-                            <th class="" data-ng-click="orderByField='paymentState'; reverseSort = !reverseSort">
-                                Payment Status
+                            <th data-ng-click="orderByField='paymentState'; reverseSort = !reverseSort">
+                                Order Status
                                 <span ng-show="orderByField == 'paymentState'">
                                     <span ng-show="!reverseSort" class="glyphicon glyphicon-chevron-up"></span>
                                     <span ng-show="reverseSort" class="glyphicon glyphicon-chevron-down"></span>
@@ -61,25 +61,91 @@
                     </thead>
 
                     <tbody>
-                        <tr data-ng-repeat="p in payments|orderBy:orderByField:reverseSort">
+                        <tr data-ng-repeat="p in orders|orderBy:orderByField:reverseSort">
                             <td>
-                                {{p.time| date: 'medium'}}
+                                <!-- {{p.time| date: 'medium'}} -->
                             </td>
 
-                            <td >
+                            <!-- <td>
                                 {{p.paymentID}}
-                            </td>
+                            </td> -->
 
                             <td>
-                                <div id="xymodal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
-                                    <div class="modal-dialog " role="document">
+                                <div id="xymodal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header bg-primary">
                                                 <h4 class="modal-title text-white ">Past inquiries</h4>
                                             </div>
 
                                             <div class="modal-body" >
+
+                                                <div class="row">
+                                                    <div class="col-md-6" >
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <h6>Name:</h6>
+                                                            </div>
+
+                                                            <div class="col-md-8">
+                                                                <h6><a>{{p.customer}}</a></h6>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <h6>Email:</h6>
+                                                            </div>
+
+                                                            <div class="col-md-8">
+                                                                <h6><a href="mailto:{{p.email}}">{{p.email}}</a></h6>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <h6>Address:</h6>
+                                                            </div>
+
+                                                            <div class="col-md-8">
+                                                                <h6>
+                                                                    <a href="https://www.google.com/maps?q={{p.address}}" target="_blank"> {{p.address}} </a>
+                                                                </h6>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-md-6" >
+
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <h6>Contact:</h6>
+                                                            </div>
+
+                                                            <div class="col-md-8">
+                                                                <h6>{{p.contact}}</h6>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <h6>Organization:</h6>
+                                                            </div>
+
+                                                            <div class="col-md-8">
+                                                                <h6><a href="https://www.google.com/search?q={{p.comname}}" target="_blank">{{p.comname}}</a></h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <br />
+
+
                                                 <table class="table" align="center">
 
                                                     <thead>
@@ -93,7 +159,7 @@
                                                             </th>
 
                                                             <th>
-                                                                # of bearings requested
+                                                                # of items requested
                                                             </th>
 
                                                             <th>
@@ -113,7 +179,7 @@
                                                             </td>
 
                                                             <td>
-                                                                {{y.bearings.length}}
+                                                                {{y.items.length}}
                                                             </td>
 
                                                             <td>
@@ -144,30 +210,37 @@
 
                                 <!-- <span  data-toggle="modal" data-target="#xymodal" class="badge badge-pill badge-primary">{{p.customer}}</span> -->
                                 <!-- <a href class="badge badge-primary" data-toggle="modal" data-target="#xymodal">{{p.customer}}</a> -->
-
-                                <button data-toggle="modal" data-target="#xymodal" class="btn btn-primary btn-sm" type="button">
+                                <a href data-toggle="modal" data-target="#xymodal">{{p.customer}}</a>
+                                <!-- <button data-toggle="modal" data-target="#xymodal" class="btn btn-primary btn-sm" type="button">
                                     {{p.customer}}
-                                </button>
+                                </button> -->
 
 
                             </td>
 
                             <td>
-                                <span data-ng-if="p.paymentState == 'approved'">
-                                    <span class="text-success">Approved</span>
+                                <span data-ng-if="p.confirm == true">
+                                    <span class="text-success">Confirmed</span>
                                 </span>
 
+                                <span data-ng-if="p.confirm != true">
+                                    <span class="text-danger">Not confirmed</span>
+                                </span>
                             </td>
 
 
 
                             <td>
-                                <button data-ng-click="openInq(p.inquiryID)" class="btn btn-primary btn-sm">
+                                <a href data-ng-click="openInq(p.inquiryID)">{{p.inquiryName}}</a>
+
+                                <!-- <button data-ng-click="openInq(p.inquiryID)" class="btn btn-primary btn-sm">
                                 {{p.inquiryName}}
-                                </button>
+                                </button> -->
                             </td>
 
                             <td>
+
+                                <!-- <a href data-toggle="modal" data-target="#myModal{{$index}}">View Quote #{{p.quoteNumber}}</a> -->
                                 <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal{{$index}}">
                                 View Quote #{{p.quoteNumber}}
                                 </button>
@@ -186,11 +259,11 @@
 
                                                     <thead>
                                                         <tr>
-                                                            <th>
+                                                            <th class="">
                                                                 #
                                                             </th>
 
-                                                            <th>
+                                                            <th class="">
                                                                 Serial Number
                                                             </th>
 
@@ -213,8 +286,8 @@
                                                     </thead>
 
                                                     <tbody>
-                                                        <tr ng-repeat="s in p.quote.quoteBearings track by $index">
-                                                            <td>
+                                                        <tr ng-repeat="s in p.quote.quoteItems track by $index">
+                                                            <td scope="row">
                                                                 {{$index+1}}
                                                             </td>
 
@@ -233,7 +306,30 @@
                                                             <td>
                                                                 {{s.total | currency:"RM"}}
                                                             </td>
+                                                        </tr>
 
+                                                        <tr ng-show="p.quote.discountPercent>0">
+                                                            <td>
+                                                                 &nbsp;
+                                                            </td>
+
+                                                            <td>
+
+                                                                Discount (%)
+                                                            </td>
+
+                                                            <td colspan="2">
+                                                                {{p.quote.discountPercent}}%
+                                                            </td>
+
+
+
+                                                            <td>
+
+                                                                <span class="text-danger">
+                                                                    {{p.quote.discountAmount|currency:"RM"}}
+                                                                </span>
+                                                            </td>
 
                                                         </tr>
 
@@ -274,7 +370,7 @@
                             </td>
 
                             <td>
-                                {{p.amount| currency:'RM'}}
+                                {{p.quote.gTotal| currency:'RM'}}
                             </td>
                         </tr>
                     </tbody>
