@@ -431,7 +431,7 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
                         body: message.messageText,
                     });
 
-                    setTimeout(notification.close.bind(notification), 3000); 
+                    setTimeout(notification.close.bind(notification), 3000);
 
                 }
                 // notification = new Notification($scope.notificationtitle, {
@@ -559,7 +559,7 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
 
 
     $scope.addRow = ()=>{
-        $scope.currentInq.bearings.push({});
+        $scope.currentInq.items.push({});
 
         console.log($scope.currentInq);
         console.log($scope.currentInq1);
@@ -569,7 +569,7 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
     $scope.removeRow= (index)=>{
         if(index>-1)
         {
-            $scope.currentInq.bearings.splice(index,1);
+            $scope.currentInq.items.splice(index,1);
             $scope.ppu.splice(index,1);
             $scope.quantity.splice(index,1);
             // $scope.total.splice(index,1);
