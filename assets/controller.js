@@ -389,6 +389,7 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
 
     });
 
+
     socket.on("recieveMessage",(msg)=>{
         console.log('recieving message');
         console.log(msg);
@@ -410,15 +411,37 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
         });
 
         // console.log(message);
+        var notification;
+
 
         if(message.messageUser!= 'admin'){
             if (Notification.permission !== "granted")
                 Notification.requestPermission();
             else {
-                var notification = new Notification($scope.notificationtitle, {
-                    icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd0XHy-MpwWSHpn4RbwC8dKSWeabXTe3jf6uIZGldY26367BPL',
-                    body: message.messageText,
-                });
+
+                console.log(notification);
+                if(notification){
+                    // console.log("got");
+                    // notification.body = message.messageText;
+                }else{
+                    // console.log("dont have")
+
+                    notification = new Notification($scope.notificationtitle, {
+                        icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd0XHy-MpwWSHpn4RbwC8dKSWeabXTe3jf6uIZGldY26367BPL',
+                        body: message.messageText,
+                    });
+
+                    setTimeout(notification.close.bind(notification), 3000); 
+
+                }
+                // notification = new Notification($scope.notificationtitle, {
+                //     icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd0XHy-MpwWSHpn4RbwC8dKSWeabXTe3jf6uIZGldY26367BPL',
+                //     body: message.messageText,
+                // });
+
+
+                notification.close();
+
 
                 if(message.messageType== "payment"){
                     notification.onclick = function () {
