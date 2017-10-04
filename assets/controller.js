@@ -675,10 +675,12 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
         }
 
         $scope.tosend = {};
-        $scope.tosend.quoteItems = $scope.data;
+        $scope.tosend.quoteBearings = $scope.data;
 
         $scope.tosend.discountAmount = $scope.realTotal* $scope.dis/100;
         $scope.tosend.discountPercent = $scope.dis;
+
+        $scope.tosend.discountPercent = parseFloat($scope.tosend.discountPercent);
 
         $scope.tosend.rTotal = rT;
         $scope.tosend.gTotal = $scope.gTotal;

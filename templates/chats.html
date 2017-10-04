@@ -281,7 +281,7 @@
 
             <div id="bearings">
                 <div class="card-body" style="border-bottom:1px solid #e6e6e6" data-ng-repeat="b in currentInq1.items track by $index">
-                    <a href><img style="width:4.16vw;height:auto" ng-show="b.imageUrl!=''" class="image float-md-right" ng-click="view()" ng-src="{{b.imageUrl}}" alt="item picture"/></a>
+                    <a href><img style="width:15%;height:auto" ng-show="b.imageUrl!=''" class="image float-md-right" ng-click="view()" ng-src="{{b.imageUrl}}" alt="item picture"/></a>
 
                     <h4 class="card-title" ng-show="b.serialNo!=''">Requested Quantity: {{b.quantity}}</h4>
                     #{{$index+1}}
@@ -469,7 +469,7 @@
 
                             <h5>Quotation #{{$index+1}}</h5>
                             <h6>Grand total: {{ q.gTotal|currency:'RM' }}<span ng-show="q.discountPercent>0"> (Discount {{q.discountPercent}}%)</span></h6>
-                            <p class="">Number of items: {{q.quoteItems.length}}</p>
+                            <p class="">Number of items: {{q.quoteBearings.length}}</p>
 
 
                         </div>
@@ -515,7 +515,7 @@
                                             </thead>
 
                                             <tbody>
-                                                <tr ng-repeat="s in q.quoteItems track by $index">
+                                                <tr ng-repeat="s in q.quoteBearings track by $index">
                                                     <td scope="row">
                                                         {{$index+1}}
                                                     </td>

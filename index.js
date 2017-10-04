@@ -219,36 +219,12 @@ socket.on("connection",(client)=>{
                     }
                 }
 
-                if(found){
-
-                    // client.emit("systemMessage", "You have already joined this room.");
-                }else{
+                if(!found){
 
                     inq.inquiryPeoples.push('admin');
-                    // console.log(inq.inquiryPeoples);
-
-                    // var msg = {
-                    //         messageText: inq.lastMessage.messageText,
-                    //         messageTime : inq.lastMessage.messageTime,
-                    //         messageUser : inq.lastMessage.messageUser,
-                    //         messageRead : true,
-                    //         messageID : inq.lastMessage.messageID,
-                    //         inquiryOwner : inq.lastMessage.inquiryOwner
-                    // }
 
                     var msg = inq.lastMessage;
                     msg.messageRead = true;
-
-                    // var data = {
-                    //     inquiryPeoples: inq.inquiryPeoples,
-                    //     inquiryName:inq.inquiryName,
-                    //     inquiryID:inq.inquiryID,
-                    //     inquiryOwner: inq.inquiryOwner,
-                    //     lastMessage: msg,
-                    //     bearings: inq.bearings,
-                    //     inquiryTime: inq.inquiryTime,
-                    //     status: inq.status
-                    // }
 
                     var data = inq;
                     data.lastMessage = msg;
@@ -260,9 +236,6 @@ socket.on("connection",(client)=>{
 
                 }
             }
-        }else{
-
-            //some error here
         }
 
     });
@@ -726,18 +699,6 @@ socket.on("connection",(client)=>{
                         client.emit("notAdmin");
                     }
                 });
-
-
-                // z.on('value',(res)=>{
-                //     for(var x in res.val()){
-                //          us[x] = res.val()[x];
-                //     }
-                // });
-
-
-
-
-                // console.log(users);
 
             }else{
                 // console.log('logged out');
