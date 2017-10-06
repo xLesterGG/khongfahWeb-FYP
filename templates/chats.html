@@ -461,13 +461,13 @@
 
 
                 <div id="quotes">
-                    <div ng-repeat="q in currentInq.quotations track by $index">
+                    <div ng-repeat="q in currentInq.quotations |reverse track by $index">
                         <div class="card-body" style="border-top:1px solid #e6e6e6" data-toggle="modal" data-target="#mModal{{$index}}">
                             <img ng-if="q.payment == undefined" alt="quote logo" src="https://www.dapd.net/content/uploads/2012/08/DAP_Icon_Mail-400x400.jpg" style="width:80px;height:auto;margin-right:10px" class="float-md-left"/>
 
                             <img ng-if="q.payment != undefined" src="https://cdn.dribbble.com/users/9866/screenshots/672155/paid_stamp.png" style="width:80px;height:auto;margin-right:10px" class="float-md-left" alt="quote logo"/>
 
-                            <h5>Quotation #{{$index+1}}</h5>
+                            <h5>Quotation #{{currentInq.quotations.length-$index+1}}</h5>
                             <h6>Grand total: {{ q.gTotal|currency:'RM' }}<span ng-show="q.discountPercent>0"> (Discount {{q.discountPercent}}%)</span></h6>
                             <p class="">Number of items: {{q.quoteBearings.length}}</p>
 

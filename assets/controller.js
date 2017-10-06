@@ -756,6 +756,15 @@ app.filter('secondsToDateTime', [function() {
     };
 }])
 
+app.filter('reverse', function() {
+  return function(items) {
+      if(items){
+          return items.slice().reverse();
+      }
+  };
+});
+
+
 app.filter('orderObjectBy', function() {
   return function(items, field, reverse) {
     var filtered = [];
