@@ -559,17 +559,15 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
 
 
     $scope.addRow = ()=>{
-        $scope.currentInq.items.push({});
+        $scope.currentInq1.items.push({});
 
-        console.log($scope.currentInq);
-        console.log($scope.currentInq1);
         $scope.item1.push('');
     };
 
     $scope.removeRow= (index)=>{
         if(index>-1)
         {
-            $scope.currentInq.items.splice(index,1);
+            $scope.currentInq1.items.splice(index,1);
             $scope.ppu.splice(index,1);
             $scope.quantity.splice(index,1);
             // $scope.total.splice(index,1);
@@ -590,10 +588,8 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
 
         $scope.currentInq = angular.copy($scope.allInq[$scope.chatID]);
 
-        if($scope.currentInq1 == undefined)
-        {
-            $scope.currentInq1 = angular.copy($scope.currentInq);
-        }
+
+        $scope.currentInq1 = angular.copy($scope.currentInq);
 
 
 

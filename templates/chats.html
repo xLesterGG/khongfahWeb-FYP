@@ -277,10 +277,10 @@
 
 
         <div class="card" style="margin-top:15px">
-            <h4 class="card-header bg-primary text-white">Items Requested <span class="badge badge-light text-primary">{{currentInq1.items.length}}</span></h4>
+            <h4 class="card-header bg-primary text-white">Items Requested <span class="badge badge-light text-primary">{{currentInq.items.length}}</span></h4>
 
             <div id="bearings">
-                <div class="card-body" style="border-bottom:1px solid #e6e6e6" data-ng-repeat="b in currentInq1.items track by $index">
+                <div class="card-body" style="border-bottom:1px solid #e6e6e6" data-ng-repeat="b in currentInq.items track by $index">
                     <a href><img style="width:15%;height:auto" ng-show="b.imageUrl!=''" class="image float-md-right" ng-click="view()" ng-src="{{b.imageUrl}}" alt="item picture"/></a>
 
                     <h4 class="card-title" ng-show="b.serialNo!=''">Requested Quantity: {{b.quantity}}</h4>
@@ -349,7 +349,7 @@
                                     </th>
                                 </tr>
 
-                                <tr ng-repeat="s in currentInq.items track by $index">
+                                <tr ng-repeat="s in currentInq1.items track by $index">
                                     <td>
                                         {{$index+1}}
                                     </td>
@@ -457,7 +457,7 @@
         <!-- quotation end--->
 
         <div class="card" style="margin-top:60px">
-            <h4 class="card-header bg-primary text-white">Quotations sent <span class="badge badge-light text-primary">{{currentInq1.quotations.length}}</span> </h4>
+            <h4 class="card-header bg-primary text-white">Quotations sent <span class="badge badge-light text-primary">{{currentInq.quotations.length}}</span> </h4>
 
 
                 <div id="quotes">
