@@ -467,7 +467,7 @@
 
                             <img ng-if="q.payment != undefined" src="https://cdn.dribbble.com/users/9866/screenshots/672155/paid_stamp.png" style="width:80px;height:auto;margin-right:10px" class="float-md-left" alt="quote logo"/>
 
-                            <h5>Quotation #{{currentInq.quotations.length-$index+1}}</h5>
+                            <h5>Quotation #{{currentInq.quotations.length-$index}}</h5>
                             <h6>Grand total: {{ q.gTotal|currency:'RM' }}<span ng-show="q.discountPercent>0"> (Discount {{q.discountPercent}}%)</span></h6>
                             <p class="">Number of items: {{q.quoteBearings.length}}</p>
 
