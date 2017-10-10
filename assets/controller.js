@@ -27,7 +27,10 @@ document.addEventListener('DOMContentLoaded', function () { // for notifications
 
 
 // var socket= io.connect("http://protected-sierra-93361.herokuapp.com");
-var socket= io.connect("http://localhost:3000");
+
+var socket= io.connect("http://protected123.herokuapp.com");
+
+// var socket= io.connect("http://localhost:3000");
 
 
 app.controller("loginCtrl",($scope,$state,$cookieStore)=>{
