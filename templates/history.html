@@ -72,7 +72,7 @@
 
                             <td>
 
-                                <div id="xymodal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div id="xymodal{{$index}}" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header bg-primary">
@@ -210,7 +210,7 @@
 
                                 <!-- <span  data-toggle="modal" data-target="#xymodal" class="badge badge-pill badge-primary">{{p.customer}}</span> -->
                                 <!-- <a href class="badge badge-primary" data-toggle="modal" data-target="#xymodal">{{p.customer}}</a> -->
-                                <a href data-toggle="modal" data-target="#xymodal">{{p.customer}}</a>
+                                <a href data-toggle="modal" data-target="#xymodal{{$index}}">{{p.customer}}</a>
                                 <!-- <button data-toggle="modal" data-target="#xymodal" class="btn btn-primary btn-sm" type="button">
                                     {{p.customer}}
                                 </button> -->
