@@ -694,7 +694,7 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
         var toSend = {};
         toSend.dest = $scope.chatID;
         toSend.mess = "I have sent you a Quotation";
-        // socket.emit("sendMessage",toSend,$scope.currentInq.inquiryOwner);
+        socket.emit("sendMessage",toSend,$scope.currentInq.inquiryOwner);
     };
 
 
