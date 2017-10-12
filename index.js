@@ -308,8 +308,6 @@ socket.on("connection",(client)=>{
             update1['/adinquiries/'+ inq.inquiryOwner+'/'+ inq.inquiryID] =data1;
             database.ref().update(update1);
 
-
-
         }
 
     });
