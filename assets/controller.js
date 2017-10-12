@@ -683,6 +683,11 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
         $scope.tosend.rTotal = rT;
         $scope.tosend.gTotal = $scope.gTotal;
 
+        $scope.tosend.userStatus = "";
+        $scope.tosend.time = parseInt(new Date().getTime());
+
+        console.log($scope.tosend);
+
 
         socket.emit("sendQuote",$scope.tosend,$scope.currentInq);
 

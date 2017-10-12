@@ -247,7 +247,6 @@ socket.on("connection",(client)=>{
 
         if(inq){
 
-
             var unread = 0;
 
             if(inq.msgUnreadCountForMobile == undefined){
@@ -296,7 +295,7 @@ socket.on("connection",(client)=>{
 
             var msg1 = JSON.parse(JSON.stringify(message));
             msg1.messageTime = parseInt('-'+parseInt(new Date().getTime()));
-            
+
             var data1= JSON.parse(JSON.stringify(data));
             data1.lastMessage = msg1;
 
@@ -374,6 +373,8 @@ socket.on("connection",(client)=>{
                         inquiryOwner:inqOwner,
                         link:''
                     }
+
+
 
 
                     var msg1 = {
@@ -773,16 +774,18 @@ socket.on("connection",(client)=>{
 
             }
 
-
-
             var update = {};
             var update1 = {};
+
+            data1 =JSON.parse(JSON.stringify(data))
+            data1.time = parseInt('-'+parseInt(new Date().getTime()));
+
 
 /**************************************************************************************/
             update['/inquiries/'+ inq.inquiryID] = data;
             database.ref().update(update);
 
-            update1['/adinquiries/'+inq.inquiryOwner +'/'+inq.inquiryID] = data;
+            update1['/adinquiries/'+inq.inquiryOwner +'/'+inq.inquiryID] = data1;
             database.ref().update(update1);
 
 /**************************************************************************************/
