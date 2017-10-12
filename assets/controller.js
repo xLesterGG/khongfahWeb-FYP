@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', function () { // for notifications
         Notification.requestPermission();
 });
 
+// console.log(location.origin+ '/#!/');
+// console.log(location.origin.includes("3000"));
+
+
 // app.config(function($mdThemingProvider,$mdIconProvider) {
 //   $mdThemingProvider.theme('default')
 //     .primaryPalette('blue')
@@ -27,7 +31,13 @@ document.addEventListener('DOMContentLoaded', function () { // for notifications
 
 
 // var socket= io.connect("http://protected-sierra-93361.herokuapp.com");
-var socket= io.connect("http://localhost:3000");
+
+if(location.origin.includes("3000")){
+    var socket= io.connect("http://localhost:3000");
+}
+else{
+    var socket= io.connect(location.origin);
+}
 
 
 app.controller("loginCtrl",($scope,$state,$cookieStore)=>{
@@ -91,13 +101,12 @@ app.controller("loginCtrl",($scope,$state,$cookieStore)=>{
     socket.on("redirectToLogin",(user)=>{
         $state.go('login');
 
-        // window.location = "http://localhost/#!/login";
-        // window.location.reload();
     });
 
 });
 
 app.controller("historyCtrl",($scope,inqService,userService)=>{
+
     $scope.orderByField = 'time';
     $scope.reverseSort = false;
 
@@ -131,10 +140,10 @@ app.controller("historyCtrl",($scope,inqService,userService)=>{
 
 
     $scope.openInq = (ID)=>{
-        // window.open("http://protected-sierra-93361.herokuapp.com/#!/home/inbox/chat/"+ID);
-        window.open("http://localhost:3000/#!/home/inbox/chat/"+ID);
-
+        // window.open("http://localhost:3000/#!/home/inbox/chat/"+ID);
+        window.open( location.origin+ "/#!/home/inbox/chat/"+ID);
     }
+
     $scope.getInq = ()=>{
         $scope.allInq = inqService.getInq();
 
@@ -142,7 +151,7 @@ app.controller("historyCtrl",($scope,inqService,userService)=>{
 
         if(Object.keys($scope.allInq).length>0){
             // console.log($scope.allInq['-Kjs3Aj_BfMqilAUcgpc'].inquiryID);
-            console.log( $scope.allInq);
+            // console.log( $scope.allInq);
             for(k in $scope.allInq){
                 // console.log($scope.allInq[k].quotations != undefined);
                 // console.log($scope.users[$scope.allInq[k].inquiryOwner]!=undefined);
@@ -342,7 +351,8 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
         return $cookieStore.get('kfLogged');
     }, function(newValue) {
         if(!newValue){
-            window.location.href = "http://localhost:3000/#!/login";
+            window.location.href = location.origin+ "/#!/login";
+            // window.location.href = "http://localhost:3000/#!/login";
         }
     });
 
@@ -358,9 +368,6 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
 
 
         $state.go('login');
-        // window.location = "http://localhost/#!/home/inbox";
-
-        // window.location = "http://localhost:3000/#!/login";
         window.location.reload();
     });
 
@@ -391,8 +398,8 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
 
 
     socket.on("recieveMessage",(msg)=>{
-        console.log('recieving message');
-        console.log(msg);
+        // console.log('recieving message');
+        // console.log(msg);
         var message = {};
         var message = msg;
 
@@ -419,10 +426,9 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
                 Notification.requestPermission();
             else {
 
-                console.log(notification);
+                // console.log(notification);
                 if(notification){
-                    // console.log("got");
-                    // notification.body = message.messageText;
+
                 }else{
                     // console.log("dont have")
 
@@ -432,12 +438,8 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
                     });
 
                     setTimeout(notification.close.bind(notification), 3000);
-
                 }
-                // notification = new Notification($scope.notificationtitle, {
-                //     icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd0XHy-MpwWSHpn4RbwC8dKSWeabXTe3jf6uIZGldY26367BPL',
-                //     body: message.messageText,
-                // });
+
 
 
                 notification.close();
@@ -445,12 +447,12 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
 
                 if(message.messageType== "payment"){
                     notification.onclick = function () {
-                        window.open("http://protected-sierra-93361.herokuapp.com/#!/home/history");
+                        window.open(location.origin+ "/#!/home/history");
                         // window.open("http://localhost/#!/home/inbox/chat/"+ID);
                     };
                 }else{
                     notification.onclick = function () {
-                        window.open("http://protected-sierra-93361.herokuapp.com/#!/home/inbox/chat/"+msg.inquiryID.trim());
+                        window.open(location.origin+ "/#!/home/inbox/chat/"+msg.inquiryID.trim());
                         // window.open("http://localhost/#!/home/inbox/chat/"+ID);
                     };
                 }
@@ -472,7 +474,7 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
         inqService.addInq(inquiryList);
         $scope.$apply();
 
-        console.log('updating inqs');
+        // console.log('updating inqs');
     });
 
     $scope.updateRead = (inq)=>{
