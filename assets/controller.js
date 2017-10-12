@@ -686,7 +686,7 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
         $scope.tosend.userStatus = "";
         $scope.tosend.time = parseInt(new Date().getTime());
 
-        console.log($scope.tosend);
+        // console.log($scope.tosend);
 
 
         socket.emit("sendQuote",$scope.tosend,$scope.currentInq);
@@ -694,7 +694,7 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
         var toSend = {};
         toSend.dest = $scope.chatID;
         toSend.mess = "I have sent you a Quotation";
-        socket.emit("sendMessage",toSend,$scope.currentInq.inquiryOwner);
+        // socket.emit("sendMessage",toSend,$scope.currentInq.inquiryOwner);
     };
 
 
