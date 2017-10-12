@@ -294,9 +294,10 @@ socket.on("connection",(client)=>{
             data.lastMessage =message;
             data.msgUnreadCountForMobile = unread;
 
-            var msg1 = message;
+            var msg1 = JSON.parse(JSON.stringify(message));
             msg1.messageTime = parseInt('-'+parseInt(new Date().getTime()));
-            var data1= data;
+            
+            var data1= JSON.parse(JSON.stringify(data));
             data1.lastMessage = msg1;
 
             var update = {};
