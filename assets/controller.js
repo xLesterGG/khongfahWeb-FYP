@@ -36,7 +36,9 @@ if(location.origin.includes("3000")){
     var socket= io.connect("http://localhost:3000");
 }
 else{
-    var socket= io.connect(location.origin);
+    var socket= io.connect("http://protected123.herokuapp.com");
+
+    // var socket= io.connect(location.origin);
 }
 
 
