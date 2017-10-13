@@ -714,7 +714,7 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
     $scope.sendMessage2 = ()=>{
         if($scope.inputMessage!=''){
             var toSend = {};
-            console.log($scope.inputMessage);
+            // console.log($scope.inputMessage);
             toSend.dest = $scope.chatID;
             toSend.mess = $scope.inputMessage;
             socket.emit("sendMessage",toSend,$scope.currentInq.inquiryOwner);
@@ -728,7 +728,7 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
 
     $scope.updateRead = ()=>{
         socket.emit("updateLastRead2",$scope.chatID);
-        console.log('chatboxctrl');
+        // console.log('chatboxctrl');
     };
 
 });
