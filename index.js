@@ -125,7 +125,7 @@ socket.on("connection",(client)=>{
         });
 
         a.on('value',function(res){
-            // console.log('loaded / new inquiry');
+            console.log('loaded / new inquiry');
             for(var r in res.val()){
                  inquiries[r] = res.val()[r];
 
@@ -148,6 +148,7 @@ socket.on("connection",(client)=>{
                     var temp = conversations[k][j];
                     temp.inquiryID = k;
                     client.emit("loadMessage",temp);
+                    // console.log(temp);
                     // socket.sockets.emit("loadMessage",temp);
                   }
                 }

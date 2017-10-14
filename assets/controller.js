@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function () { // for notifications
 
 if(location.origin.includes("3000")){
     var socket= io.connect("http://localhost:3000");
+    // console.log("3000");
 }
 else{
     var socket= io.connect(location.origin);
@@ -251,7 +252,7 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
                 }, function() {
                     // Upload completed successfully, now we can get the download URL
                     var downloadURL = uploadTask.snapshot.downloadURL;
-                    console.log(downloadURL);
+                    // console.log(downloadURL);
 
                     socket.emit("sendImage", downloadURL,$stateParams.id);
 
@@ -343,9 +344,7 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
         socket.emit("getUser");
     }
 
-    $scope.abc= function logshit(){
-        console.log($cookieStore.get('kfLogged'));
-    }
+
 
     $scope.$watch(function() {
         return $cookieStore.get('kfLogged');
@@ -581,9 +580,7 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
         }
     };
 
-    $scope.aaa = (a)=>{
-        console.log(a);
-    }
+
 
     $scope.getInq = ()=>{
         $scope.allInq = inqService.getInq();
@@ -640,8 +637,8 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
             // $scope.$apply();
             // console.log("total " + total);
 
-            console.log($scope.dis);
-            console.log($scope.realTotal* $scope.dis/100 );
+            // console.log($scope.dis);
+            // console.log($scope.realTotal* $scope.dis/100 );
 
 
             total = total - ($scope.realTotal* $scope.dis/100) ;
@@ -712,7 +709,7 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
     $scope.sendMessage2 = ()=>{
         if($scope.inputMessage!=''){
             var toSend = {};
-            console.log($scope.inputMessage);
+            // console.log($scope.inputMessage);
             toSend.dest = $scope.chatID;
             toSend.mess = $scope.inputMessage;
             socket.emit("sendMessage",toSend,$scope.currentInq.inquiryOwner);
@@ -726,7 +723,7 @@ app.controller("chatBoxCtrl",($scope,$stateParams,messageService,inqService,user
 
     $scope.updateRead = ()=>{
         socket.emit("updateLastRead2",$scope.chatID);
-        console.log('chatboxctrl');
+        // console.log('chatboxctrl');
     };
 
 });
