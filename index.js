@@ -733,6 +733,7 @@ socket.on("connection",(client)=>{
                     }
 
                     if(b){
+                        console.log('redirecting to inbox');
                         client.emit("redirectToInbox",user);
                     }else{
                         client.emit("notAdmin");
