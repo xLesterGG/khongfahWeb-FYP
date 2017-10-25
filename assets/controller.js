@@ -372,6 +372,7 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
 
     $scope.logout = ()=>{
         $cookieStore.remove('kfLogged');
+        socket.emit("logoutUser");
 
         window.location.reload();
 
