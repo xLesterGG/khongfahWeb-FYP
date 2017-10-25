@@ -72,7 +72,10 @@ app.get('/',(req,res)=>{
 
 
 // server.listen(3000,"localhost");
-server.listen(3000,'128.199.188.200');
+// server.listen(3000,'128.199.188.200');
+
+server.listen(3000);
+
 
 var socket = io.listen(server);
 // var people = {};
@@ -697,6 +700,7 @@ socket.on("connection",(client)=>{
         firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
           // Handle Errors here.
         //   console.log(error);
+        console.log('error logging in');
           var errorCode = error.code;
           var errorMessage = error.message;
 
@@ -711,7 +715,7 @@ socket.on("connection",(client)=>{
         });
 
         firebase.auth().onAuthStateChanged(user => {
-            if(user!=undefined) {
+            if(user) {
                 console.log('user logged in');
             // window.location = 'home.html'; //After successful login, user will be redirected to home.html
                 currentUser = user
@@ -735,9 +739,6 @@ socket.on("connection",(client)=>{
                     }
                 });
 
-            }else{
-                // console.log('logged out');
-                // client.emit("redirectToLogin1");
             }
         });
 
