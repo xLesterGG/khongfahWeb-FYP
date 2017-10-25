@@ -72,7 +72,7 @@ app.get('/',(req,res)=>{
 
 
 // server.listen(3000,"localhost");
-server.listen(process.env.PORT || 3000);
+server.listen(3000,'128.199.188.200');
 
 var socket = io.listen(server);
 // var people = {};
