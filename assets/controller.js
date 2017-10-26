@@ -37,9 +37,9 @@ else{
     var socket= io.connect(location.origin);
 }
 
-if(firebase.apps.length === 0){
-    socket.emit("getConfig");
-}
+// if(firebase.apps.length === 0){
+//     socket.emit("getConfig");
+// }
 
 var config = {};
 var fbApp;
@@ -176,6 +176,7 @@ app.controller("loginCtrl",($scope,$state,$cookieStore)=>{
 });
 
 app.controller("historyCtrl",($scope,inqService,userService)=>{
+    console.log(firebase.apps.length);
 
     fbApp.auth().onAuthStateChanged(function(user) {
         if (!user){
@@ -271,6 +272,8 @@ app.controller("historyCtrl",($scope,inqService,userService)=>{
 });
 
 app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqService,userService,$cookieStore)=>{
+
+    console.log(firebase.apps.length);
 
     fbApp.auth().onAuthStateChanged(function(user) {
         if (!user){

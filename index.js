@@ -96,9 +96,9 @@ socket.on("connection",(client)=>{
     // console.log(client.id);
     // console.log(Object.keys(socket.sockets.sockets));
 
-    client.on("getConfig",()=>{
+    // client.on("getConfig",()=>{
         client.emit("getConfig",config);
-    });
+    // });
 
     client.on("getUser",()=>{
         if(currentUser == undefined){
