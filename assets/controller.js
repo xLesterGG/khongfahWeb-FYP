@@ -11,9 +11,6 @@ document.addEventListener('DOMContentLoaded', function () { // for notifications
         Notification.requestPermission();
 });
 
-// console.log(location.origin+ '/#!/');
-// console.log(location.origin.includes("3000"));
-
 
 // app.config(function($mdThemingProvider,$mdIconProvider) {
 //   $mdThemingProvider.theme('default')
@@ -129,11 +126,6 @@ app.controller("loginCtrl",($scope,$state,$cookieStore)=>{
     };
 
 
-    // if($cookieStore.get('kfLogged'))
-    // {
-    //     $state.go('home.inbox');
-    // }
-
     $scope.showlogin = true;
     $scope.showsignup = false;
 
@@ -196,9 +188,7 @@ app.controller("historyCtrl",($scope,inqService,userService)=>{
     $scope.orderByField = 'time';
     $scope.reverseSort = false;
 
-    // $scope.asdf = ()=>{
-    //     console.log($scope.payments);
-    // };
+
 
     $scope.reload =()=>{
         // console.log('reloadings');
@@ -289,27 +279,6 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
         }
 
     });
-
-    window.onfocus = ()=>{
-        $scope.$apply();
-    }
-
-    // if(firebase.apps.length === 0){
-    //     socket.emit("getConfig");
-    // }
-    //
-    // var config = {};
-    // var fbApp;
-    // var defaultStorage ;
-    //
-    //
-    // socket.on("getConfig",(c)=>{
-    //     // console.log('getting on chat');
-    //     config = c;
-    //     fbApp = firebase.initializeApp(config);
-    //     defaultStorage  = fbApp.storage().ref();
-    // });
-
 
     $scope.file_changed = function(element) {
         $scope.$apply(function(scope) {
@@ -436,22 +405,6 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
 
     $scope.selected = "inbox";
 
-    // if(!$cookieStore.get('kfLogged')){
-    //     socket.emit("getUser");
-    // }
-    //
-    //
-    //
-    // $scope.$watch(function() {
-    //     return $cookieStore.get('kfLogged');
-    // }, function(newValue) {
-    //     if(!newValue){
-    //         window.location.href = location.origin+ "/#!/login";
-    //         // window.location.href = "http://localhost:3000/#!/login";
-    //     }
-    // });
-
-
 
     $scope.view = ()=>{
         $('.image').viewer();
@@ -467,9 +420,7 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
     });
 
     $scope.logout = ()=>{
-        // $cookieStore.remove('kfLogged');
-        //
-        // window.location.reload();
+
 
         fbApp.auth().signOut()
 
