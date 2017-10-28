@@ -545,6 +545,7 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
 
     socket.on("updateInquiryList",(inquiryList)=>{
         $scope.allInquiryList = inquiryList;
+        console.log(inquiryList);
 
         inqService.addInq(inquiryList);
         $scope.$apply();
