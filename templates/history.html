@@ -2,7 +2,41 @@
     <div class="container" data-ng-controller="historyCtrl" ng-init="getInq();updateUsers()">
         <div class="row">
             <div class="col-md-12">
+
+
                 <h2 class="display-3">Orders</h2>
+
+                <div class="row">
+                    <div class="col-md-3 col-sm-8 form-group">
+                        <input ng-model="query.time" class="form-control" placeholder="Time"/>
+                    </div>
+
+                    <div class="col-md-3 col-sm-8 form-group">
+                        <input ng-model="query.customer" class="form-control" placeholder="Customer Name"/>
+                    </div>
+
+                    <div class="col-md-3 col-sm-8 form-group">
+                        <input ng-model="query.inquiryName" class="form-control" placeholder="Inquiry Name"/>
+                    </div>
+
+                    <div class="col-md-3 col-sm-8 form-group">
+                        <input type="" ng-model="query.gTotal" class="form-control" placeholder="Amount(exclude RM)"/>
+                    </div>
+
+                    <!-- <div class="col-md-3 col-sm-8">
+                        <select ng-model="queryBy" ng-init="queryBy='time'" class="form-control" id="exampleFormControlSelect1">
+                           <option value="time" selected="selected">Confirmation time</option>
+                           <option value="customer">Customer name</option>
+                           <option value="inquiryName">Inquiry name</option>
+                           <option value="gTotal">Amount paid</option>
+                       </select>
+                    </div> -->
+                </div>
+
+
+
+
+
 
                 <table class="table">
                     <thead>
@@ -61,7 +95,7 @@
                     </thead>
 
                     <tbody>
-                        <tr data-ng-repeat="p in orders|orderBy:orderByField:reverseSort">
+                            <tr data-ng-repeat="p in orders|orderBy:orderByField:reverseSort|filter:query">
                             <td>
                                 {{p.time| date: 'medium'}}
                             </td>
@@ -169,7 +203,7 @@
                                                     </thead>
 
                                                     <tbody>
-                                                        <tr ng-repeat="y in allInq|inqFilter:p.customerID track by $index">
+                                                        <tr ng-repeat="y in allInq|inqFilter:p.customerID  track by $index">
                                                             <td class="">
                                                                 {{$index+1}}
                                                             </td>
@@ -370,7 +404,7 @@
                             </td>
 
                             <td>
-                                {{p.quote.gTotal| currency:'RM'}}
+                                {{p.gTotal| currency:'RM'}}
                             </td>
                         </tr>
                     </tbody>

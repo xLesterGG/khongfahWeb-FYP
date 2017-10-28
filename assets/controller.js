@@ -176,7 +176,30 @@ app.controller("loginCtrl",($scope,$state,$cookieStore)=>{
 });
 
 app.controller("historyCtrl",($scope,inqService,userService)=>{
-    console.log(firebase.apps.length);
+    // console.log(firebase.apps.length);
+    $scope.clearSearch = (selected)=>{
+        console.log($scope.query);
+        // if(selected == 'time'){
+        //     $scope.query['customer']='';
+        //     $scope.query['inquiryName']='';
+        //     $scope.query['gTotal']='';
+        //
+        // }else if(selected == 'customer'){
+        //     $scope.query[time]='';
+        //     $scope.query[inquiryName]='';
+        //     $scope.query[gTotal]='';
+        //
+        // }else if(selected =='inquiryName'){
+        //     $scope.query[time]='';
+        //     $scope.query[customer]='';
+        //     $scope.query[gTotal]='';
+        // }else{
+        //     $scope.query[time]='';
+        //     $scope.query[customer]='';
+        //     $scope.query[inquiryName]='';
+        // }
+    };
+
 
     fbApp.auth().onAuthStateChanged(function(user) {
         if (!user){
@@ -250,6 +273,7 @@ app.controller("historyCtrl",($scope,inqService,userService)=>{
                             $scope.toAdd.quoteNumber = i + 1;
                             $scope.toAdd.customerID = $scope.allInq[k].inquiryOwner;
 
+                            $scope.toAdd.gTotal = ($scope.allInq[k].quotations[i].gTotal).toFixed(2);
                             $scope.toAdd.customer = $scope.users[$scope.allInq[k].inquiryOwner].name;
                             $scope.toAdd.address = $scope.users[$scope.allInq[k].inquiryOwner].address;
                             $scope.toAdd.contact = $scope.users[$scope.allInq[k].inquiryOwner].contact

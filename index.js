@@ -69,8 +69,8 @@ app.get('/',(req,res)=>{
 
 
 // server.listen(3000,"localhost");
- server.listen(3000,'128.199.188.200'); // for droplet
-//server.listen(3000); // for development
+ // server.listen(3000,'128.199.188.200'); // for droplet
+server.listen(3000); // for development
 
 
 var socket = io.listen(server);
