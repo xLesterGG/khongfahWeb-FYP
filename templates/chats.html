@@ -1,6 +1,6 @@
 <div data-ng-controller="chatBoxCtrl" data-ng-init="updateFilter(); autojoinRoom();getInq();" class="row" style="background-color:white">
 
-    <div class="col-md-8 conversation">
+    <div class="col-md-8 col-sm-8 conversation">
         <div id="mmmodal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
             <div class="modal-dialog">
@@ -155,9 +155,7 @@
 
                     </div>
 
-
                 </div>
-                <!-- <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#mmmodal">Details</button></h4> -->
 
             </div>
         </div>
@@ -191,9 +189,6 @@
                     </div>
                 </div>
 
-                <!-- <div class="bubble me">
-                    <span style="white-space: pre-line"><img style="width:200px; height:auto" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlTOM_N8sY92JegiU0tncoQtDbFK3O58cGjSpn9z2sC1uLSU6Zdw" /></span>
-                </div> -->
             </div>
 
         </div>
@@ -202,33 +197,11 @@
         <div id="sMsg">
             <form ng-submit="sendMessage2()">
 
-                <!-- <div class="row">
-                    <div class="col-md-12" style="background-color:#F5F5F5">
-                        <md-input-container class="md-block" flex-gt-sm>
-                              <label>Your message</label>
-                              <input ng-model="user.firstName">
-                            </md-input-container>
-                    </div>
-                </div> -->
-
                 <div class="row col-md-12">
-
-                    <!-- <div class="container">
-                      <div class="row">
-                        <div class="col-md-10">
-                            <p class="lead emoji-picker-container">
-                              <input class="form-control" placeholder="Type a message" data-ng-click="updateRead()" type="text" data-ng-model="inputMessage" data-emojiable="true"/>
-                            </p>
-                        </div>
-                      </div>
-                    </div> -->
-
-                    <!-- <input class="form-control col-md-9" placeholder="Type a message" data-ng-click="updateRead()" type="text" data-ng-model="inputMessage"/> -->
-
 
                     <textarea class="form-control col-md" id="usermsg" placeholder="Type a message" data-ng-click="updateRead()" data-ng-model="inputMessage"></textarea>
 
-                    <!-- <input class="form-control col-md-10" placeholder="Type a message" data-ng-click="updateRead()" type="text" data-emojiable="true" data-ng-model="inputMessage"/> -->
+
                     <button class="btn btn-primary" data-ng-model="inputMessage">Send</button>
 
                     <input id="fileInput" type="file" style="display:none;" ng-model="photo" onchange="angular.element(this).scope().file_changed(this)" type="file" accept="image/*"/>
@@ -273,7 +246,7 @@
     </div>
 
 
-    <div class="col-md-4" style="border-left: 1px solid #e6e6e6;">
+    <div class="col-md-4 col-sm-8" style="border-left: 1px solid #e6e6e6;">
 
 
         <div class="card" style="margin-top:15px">
