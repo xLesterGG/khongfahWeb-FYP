@@ -119,25 +119,6 @@ socket.on("connection",(client)=>{
         var c = database.ref('/conversations/'); // to receive incoming messages and update view
         var d = database.ref('/users');
 
-        d.on('value',(res)=>{
-            for(var x in res.val()){
-                 users[x] = res.val()[x];
-            }
-            socket.sockets.emit("updateUserList",users);
-            // console.log(users);
-        });
-
-        a.on('value',function(res){
-            console.log('loaded / new inquiry');
-            for(var r in res.val()){
-                 inquiries[r] = res.val()[r];
-
-                //  console.log(inquiries);
-            }
-
-            ready = true;
-            socket.sockets.emit("updateInquiryList",inquiries);
-        });
 
         database.ref('/conversations').once('value').then((res)=>{ // retrieve once client is connected
             console.log('get once');
@@ -163,6 +144,27 @@ socket.on("connection",(client)=>{
                 isReady = true;
             }
         });
+
+        d.on('value',(res)=>{
+            for(var x in res.val()){
+                 users[x] = res.val()[x];
+            }
+            socket.sockets.emit("updateUserList",users);
+            // console.log(users);
+        });
+
+        a.on('value',function(res){
+            console.log('loaded / new inquiry');
+            for(var r in res.val()){
+                 inquiries[r] = res.val()[r];
+
+                //  console.log(inquiries);
+            }
+
+            ready = true;
+            socket.sockets.emit("updateInquiryList",inquiries);
+        });
+
 
         b.on('child_added',(res)=>{ // when a new chat is created (called when person in new room sends message), create new entry in associative array
             if(isReady){

@@ -27,8 +27,6 @@ document.addEventListener('DOMContentLoaded', function () { // for notifications
 // }); // register mdl elemenets
 
 
-// var socket= io.connect("http://protected-sierra-93361.herokuapp.com");
-
 if(location.origin.includes("3000")){
     var socket= io.connect("http://localhost:3000");
     // console.log("3000");
@@ -295,9 +293,9 @@ app.controller("historyCtrl",($scope,inqService,userService)=>{
 
 });
 
-app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqService,userService,$cookieStore)=>{
+app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqService,userService,)=>{
 
-    console.log(firebase.apps.length);
+    // console.log(firebase.apps.length);
 
     fbApp.auth().onAuthStateChanged(function(user) {
         if (!user){
@@ -447,10 +445,7 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
     });
 
     $scope.logout = ()=>{
-
-
-        fbApp.auth().signOut()
-
+        fbApp.auth().signOut();
     };
 
     $scope.rname = '';
@@ -460,6 +455,8 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
     $scope.allInquiryList = [];
 
     $scope.messages = [];
+
+    $scope.users = [];
 
     $scope.hideName = true;
     $scope.hideRoom = false;
@@ -473,8 +470,7 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
 
 
     socket.on("recieveMessage",(msg)=>{
-        // console.log('recieving message');
-        // console.log(msg);
+
         var message = {};
         var message = msg;
 
@@ -482,6 +478,9 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
 
         messageService.addMessage(message);
         $scope.$apply();
+
+        $scope.updateInq();
+
 
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
@@ -508,7 +507,7 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
                     // console.log("dont have")
 
                     notification = new Notification($scope.notificationtitle, {
-                        icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd0XHy-MpwWSHpn4RbwC8dKSWeabXTe3jf6uIZGldY26367BPL',
+                        icon: 'http://s-yoolk-images.s3.amazonaws.com/my/logo_images/large/2753548-386885_454802397874670_288420056_n_-_Copy?1480673320',
                         body: message.messageText,
                     });
 
@@ -538,24 +537,59 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
     });
 
     socket.on("updateUserList",(userList)=>{
+        $scope.users = userList;
         userService.addUsers(userList);
         $scope.$apply();
 
+        $scope.updateInq();
+
     });
 
-    socket.on("updateInquiryList",(inquiryList)=>{
-        $scope.allInquiryList = inquiryList;
-        console.log(inquiryList);
+    $scope.updateInq = ()=>{
+        $scope.messages= messageService.getMessage();
+        // console.log($scope.messages);
 
+        $scope.allInquiryList = inqService.getInq();
+        angular.forEach($scope.allInquiryList, function(item,key){
+            var itemNames = '';
+            var tMessages = '';
+
+            // for(var i = 0; i < item.items.length;i++){
+            //     if(item.items[i].extraComment!='')
+            //     {
+            //         itemNames = itemNames + " "+ item.items[i].extraComment;
+            //     }
+            // }
+            // item.itemNames = itemNames;
+
+            if($scope.users[item.inquiryOwner].name)
+            {
+                item.customer = $scope.users[item.inquiryOwner].name;
+            }
+            else{
+                item.customer = "no name";
+            }
+
+            for(var j=0;j<$scope.messages.length;j++){
+                if($scope.messages[j].inquiryOwner == item.inquiryOwner){
+                    tMessages = tMessages  + " "+  $scope.messages[j].messageText;
+                }
+            }
+
+            item.messages = tMessages;
+        });
+        console.log($scope.allInquiryList);
+    };
+
+    socket.on("updateInquiryList",(inquiryList)=>{
         inqService.addInq(inquiryList);
         $scope.$apply();
 
-        // console.log('updating inqs');
+        $scope.updateInq();
     });
 
+
     $scope.updateRead = (inq)=>{
-        // console.log(inq);
-        // console.log('with inq');
         socket.emit("updateLastRead",inq);
     };
 

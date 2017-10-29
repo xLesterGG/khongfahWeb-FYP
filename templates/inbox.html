@@ -9,14 +9,14 @@
                         <a class="dropdown-item" href data-ng-click="selected='trash'">Trash</a>
                         <div class="dropdown-divider"></div>
 
-
-
                         <a class="dropdown-item" href data-ng-click="selected='read'">Read</a>
                         <a class="dropdown-item" href data-ng-click="selected='unread'">Unread</a>
 
                     </div>
                 </div>
             </h2>
+
+
 
             <h1 class="display-3" id="head" data-ng-show="selected=='trash'"> Trash
                 <div class="btn-group">
@@ -26,7 +26,6 @@
                         <div class="dropdown-menu">
                         <a class="dropdown-item" href data-ng-click="selected='inbox'">Inbox</a>
                         <div class="dropdown-divider"></div>
-
 
 
                         <a class="dropdown-item" href data-ng-click="selected='read'">Read</a>
@@ -67,10 +66,19 @@
                 </div>
             </h1>
 
+            <div class="row" style="border-bottom: 1px solid #e6e6e6;">
+                <div class="col-md-1">
+
+                </div>
+                <input type="text" ng-model="inboxq" class="form-control col-md-10" placeholder="Your search query here" style="margin-bottom:10px"/>
+            </div>
+
+
+
 
             <div id="inqs" data-ng-if="selected=='inbox'">
                 <ul class="people">
-                    <li class="person" data-ng-repeat="inq in allInquiryList |orderObjectBy:'lastMesage.messageTime':true|filter:getInbox track by $index " data-chat="person{{$index}}" ui-sref-active="active" data-ui-sref="home.inbox.chat({id: inq.inquiryID})" data-ng-click="updateRead(inq)">
+                    <li class="person" data-ng-repeat="inq in allInquiryList |orderObjectBy:'lastMesage.messageTime':true|filter:getInbox|filter: inboxq track by $index " data-chat="person{{$index}}" ui-sref-active="active" data-ui-sref="home.inbox.chat({id: inq.inquiryID})" data-ng-click="updateRead(inq)">
 
                         <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="" />
                         <span class="name">{{inq.inquiryName}}</span>
@@ -92,7 +100,7 @@
 
             <div id="inqs" data-ng-if="selected=='trash'">
                 <ul class="people">
-                    <li class="person" data-ng-repeat="inq in allInquiryList |orderObjectBy:'lastMesage.messageTime':true| filter:getTrash track by $index " data-chat="person{{$index}}" ui-sref-active="active" data-ui-sref="home.inbox.chat({id: inq.inquiryID})" data-ng-click="updateRead(inq)">
+                    <li class="person" data-ng-repeat="inq in allInquiryList |orderObjectBy:'lastMesage.messageTime':true| filter:getTrash |filter: inboxq track by $index " data-chat="person{{$index}}" ui-sref-active="active" data-ui-sref="home.inbox.chat({id: inq.inquiryID})" data-ng-click="updateRead(inq)">
 
                         <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="" />
                         <span class="name">{{inq.inquiryName}}</span>
@@ -112,56 +120,10 @@
                 </ul>
             </div>
 
-
-
-
-            <div id="inqs" data-ng-if="selected=='paid'">
-                <ul class="people">
-                    <li class="person" data-ng-repeat="inq in allInquiryList | orderObjectBy:'lastMesage.messageTime':true | filter:getPaid track by $index " data-chat="person{{$index}}" ui-sref-active="active" data-ui-sref="home.inbox.chat({id: inq.inquiryID})" data-ng-click="updateRead(inq)">
-
-                        <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="" />
-                        <span class="name">{{inq.inquiryName}}</span>
-                        <span class="time">{{inq.lastMessage.messageTime | date: 'hh:mm a' }}</span>
-
-                        <div data-ng-show="(inq.lastMessage.messageRead==false) && (inq.lastMessage.messageUser!='admin')">
-                            <span class="preview">
-                              <strong>{{inq.lastMessage.messageText}}</strong>
-                            </span>
-
-                        </div>
-
-                        <div data-ng-show="inq.lastMessage.messageRead==true || inq.lastMessage.messageUser=='admin'">
-                            <span class="preview">{{inq.lastMessage.messageText}}</span>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <div id="inqs" data-ng-if="selected=='unpaid'">
-                <ul class="people">
-                    <li class="person" data-ng-repeat="inq in allInquiryList | orderObjectBy:'lastMesage.messageTime':true | filter:getUnpaid track by $index " data-chat="person{{$index}}" ui-sref-active="active" data-ui-sref="home.inbox.chat({id: inq.inquiryID})" data-ng-click="updateRead(inq)">
-
-                        <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="" />
-                        <span class="name">{{inq.inquiryName}}</span>
-                        <span class="time">{{inq.lastMessage.messageTime | date: 'hh:mm a' }}</span>
-
-                        <div data-ng-show="(inq.lastMessage.messageRead==false) && (inq.lastMessage.messageUser!='admin')">
-                            <span class="preview">
-                              <strong>{{inq.lastMessage.messageText}}</strong>
-                            </span>
-
-                        </div>
-
-                        <div data-ng-show="inq.lastMessage.messageRead==true || inq.lastMessage.messageUser=='admin'">
-                            <span class="preview">{{inq.lastMessage.messageText}}</span>
-                        </div>
-                    </li>
-                </ul>
-            </div>
 
             <div id="inqs" data-ng-if="selected=='read'">
                 <ul class="people">
-                    <li class="person" data-ng-repeat="inq in allInquiryList | orderObjectBy:'lastMesage.messageTime':true | filter:getRead track by $index " data-chat="person{{$index}}" ui-sref-active="active" data-ui-sref="home.inbox.chat({id: inq.inquiryID})" data-ng-click="updateRead(inq)">
+                    <li class="person" data-ng-repeat="inq in allInquiryList | orderObjectBy:'lastMesage.messageTime':true | filter:getRead |filter: inboxq track by $index " data-chat="person{{$index}}" ui-sref-active="active" data-ui-sref="home.inbox.chat({id: inq.inquiryID})" data-ng-click="updateRead(inq)">
 
                         <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="" />
                         <span class="name">{{inq.inquiryName}}</span>
@@ -184,7 +146,7 @@
 
             <div id="inqs" data-ng-if="selected=='unread'">
                 <ul class="people">
-                    <li class="person" data-ng-repeat="inq in allInquiryList | orderObjectBy:'lastMesage.messageTime':true | filter:getUnread track by $index " data-chat="person{{$index}}" ui-sref-active="active" data-ui-sref="home.inbox.chat({id: inq.inquiryID})" data-ng-click="updateRead(inq)">
+                    <li class="person" data-ng-repeat="inq in allInquiryList | orderObjectBy:'lastMesage.messageTime':true | filter:getUnread |filter: inboxq track by $index " data-chat="person{{$index}}" ui-sref-active="active" data-ui-sref="home.inbox.chat({id: inq.inquiryID})" data-ng-click="updateRead(inq)">
 
                         <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="" />
                         <span class="name">{{inq.inquiryName}}</span>
