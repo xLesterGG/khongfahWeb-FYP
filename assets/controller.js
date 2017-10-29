@@ -79,14 +79,14 @@ socket.on("getConfig",(c)=>{
                     {
                         window.location.href = location.origin+ "/#!/home/inbox";
                     }
-                    console.log("logged in");
+                    // console.log("logged in");
                 }
             });
 
 
 
         } else {
-            console.log("not logged in");
+            // console.log("not logged in");
 
             if(!location.hash.includes("login")){
                 window.location.href = location.origin+ "/#!/login";
@@ -578,7 +578,7 @@ app.controller("chatCtrl",($scope, $log,$stateParams, messageService,$state,inqS
 
             item.messages = tMessages;
         });
-        console.log($scope.allInquiryList);
+        // console.log($scope.allInquiryList);
     };
 
     socket.on("updateInquiryList",(inquiryList)=>{
