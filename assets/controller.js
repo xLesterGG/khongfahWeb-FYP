@@ -175,29 +175,6 @@ app.controller("loginCtrl",($scope,$state,$cookieStore)=>{
 
 app.controller("historyCtrl",($scope,inqService,userService)=>{
     // console.log(firebase.apps.length);
-    $scope.clearSearch = (selected)=>{
-        console.log($scope.query);
-        // if(selected == 'time'){
-        //     $scope.query['customer']='';
-        //     $scope.query['inquiryName']='';
-        //     $scope.query['gTotal']='';
-        //
-        // }else if(selected == 'customer'){
-        //     $scope.query[time]='';
-        //     $scope.query[inquiryName]='';
-        //     $scope.query[gTotal]='';
-        //
-        // }else if(selected =='inquiryName'){
-        //     $scope.query[time]='';
-        //     $scope.query[customer]='';
-        //     $scope.query[gTotal]='';
-        // }else{
-        //     $scope.query[time]='';
-        //     $scope.query[customer]='';
-        //     $scope.query[inquiryName]='';
-        // }
-    };
-
 
     fbApp.auth().onAuthStateChanged(function(user) {
         if (!user){
